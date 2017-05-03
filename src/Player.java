@@ -7,14 +7,16 @@ public class Player {
     private int playerRank;
     private Room playerLoc;
     private boolean roleTaken;
+    private PlayerCurrency wallet;
     public int pracChips;
 
-    public Player(String name, int rank, Room location, boolean roleTaken, int pracChips){
+    public Player(String name, int rank, Room location, boolean roleTaken, int pracChips, PlayerCurrency money){
         playerName = name;
         playerRank = rank;
         playerLoc = location;
         this.roleTaken = roleTaken;
         this.pracChips = pracChips;
+        wallet = money;
     }
 
     public String getPlayerName(){
