@@ -1,10 +1,12 @@
+import java.util.ArrayList;
+
 /**
  * Created by pricek21 on 5/2/17.
  */
 public class Board {
 
     private int numPlayer;
-    private ArrayLIst<Player> playerList;
+    private ArrayList<Player> playerList;
     private int numDays;
     private int numScenes;
     private String winner;
