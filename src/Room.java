@@ -3,6 +3,7 @@
  */
 public class Room {
     private String roomName;
+    private Room[] adjRooms;
     public int numberPlayers;
 
     public Room(String name, int availableCount){
@@ -13,4 +14,13 @@ public class Room {
     public String getRoomName(){
         return roomName;
     }
+
+    public Room[] getAdjRooms(){
+        return adjRooms;
+    }
+
+    public int getNumberPlayers(){
+        return numberPlayers;
+    }
+
 }

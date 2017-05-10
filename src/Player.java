@@ -28,30 +28,50 @@ public class Player {
     }
 
     public Room getPlayerLoc(){
-        return null;
+        return playerLoc;
     }
 
     public void moveOptions(Room playerLoc){
-
+        Room[] adjRooms = playerLoc.getAdjRooms();
+        for(Room room: adjRooms){
+            System.out.println(room.getRoomName());
+        }
     }
 
     public void move(Room goalRoom){
+        Room[] adjRooms = playerLoc.getAdjRooms();
+        String goalName = goalRoom.getRoomName();
+        boolean found = false;
+        for(Room room: adjRooms){
+            if(goalRoom == room){
+                found = true;
+                break;
+            }
+        }
 
+        if(found){
+            System.out.println("Moving to " + goalName);
+            playerLoc = goalRoom;
+        } else{
+            System.out.println("Could not move to " + goalName);
+            System.out.println("Room must be adjacent to players current room.");
+        }
     }
 
     public void takeRole(){
+        roleTaken = true;
+    }
 
+    public void leaveRole(){
+        roleTaken = false;
     }
 
     public void practiceRole(int pracChips){
-
+        this.pracChips += pracChips;
     }
 
-    public int[] actRole(int pracChips){
-        return new int[]{0};
-    }
-
-    public void endTurn(){
-
+    public void actRole(int credits, int dollars){
+        wallet.incCredits(credits);
+        wallet.incDollars(dollars);
     }
 }
