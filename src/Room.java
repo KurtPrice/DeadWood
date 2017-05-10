@@ -23,4 +23,12 @@ public class Room {
         return numberPlayers;
     }
 
+    public void addAdjRoom(Room adjRoom){
+        Room[] tempt = new Room[adjRooms.length+1];
+        for(int i = 0; i < adjRooms.length; i++){
+            tempt[i] = adjRooms[i];
+        }
+        tempt[adjRooms.length] = adjRoom;
+    }
+
 }
