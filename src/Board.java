@@ -26,17 +26,18 @@ public class Board {
     }
 
     public static void ReadXML(){
-        ArrayList<Scene> sceneList;
         try {
+            ArrayList<Scene> sceneList = new ArrayList<>();
 
-            File fXmlFile = new File("/home/eddyt/IdeaProjects/DeadWood/src/cards.xml");
+            File fXmlFile = new File("C:/Users/Tom/IdeaProjects/DeadWood/src/cards.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
 
-            //doc.getDocumentElement().normalize();
+            doc.getDocumentElement().normalize();
 
             NodeList nList = doc.getElementsByTagName("card");
+            NodeList nList2 = doc.getElementsByTagName("part");
 
             for (int temp = 0; temp < nList.getLength(); temp++) {
 
@@ -50,10 +51,24 @@ public class Board {
                     String sBudget = eElement.getAttribute("budget");
                     String sDescription = eElement.getElementsByTagName("scene").item(0).getTextContent();
 
-                    //Scene s = new Scene(sName, sDescription, Role[], 0);
-                    //sceneList.add(s);
-                }
+                    Role[] sRoles = new Role[nList.getLength()] ;
 
+                    for(int temp2 = 0; temp2 < nList.getLength(); temp2++){
+                        Node nNode2 = nList2.item(temp2);
+                       if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+
+                           Element eElement2 = (Element) nNode2;
+
+                           String pName = eElement2.getAttribute("name");
+                            String pRank = eElement2.getAttribute("level");
+                            String pDescription = eElement2.getElementsByTagName("line").item(0).getTextContent();
+                            Role r = new Role(pName, pDescription, Integer.parseInt(pRank), true);
+                           sRoles[temp2] = r;
+                        }
+                    }
+                    Scene s = new Scene(sName, sDescription, sRoles, 0);
+                    sceneList.add(s);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
