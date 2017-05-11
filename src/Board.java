@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+
 import java.io.File;
 
 /**
@@ -20,14 +22,14 @@ public class Board {
     private String winner;
 
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         startGame(numPlayer);
-        ReadXML();
+        Scene[] sceneArray = ReadXML();
     }
 
-    public static void ReadXML(){
+    public static Scene[] ReadXML() {
         try {
-            ArrayList<Scene> sceneList = new ArrayList<>();
+            Scene[] sceneArray = new Scene[40];
 
             File fXmlFile = new File("C:/Users/Tom/IdeaProjects/DeadWood/src/cards.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -36,87 +38,100 @@ public class Board {
 
             doc.getDocumentElement().normalize();
 
-            NodeList nList = doc.getElementsByTagName("card");
-            NodeList nList2 = doc.getElementsByTagName("part");
+            NodeList nListScene = doc.getElementsByTagName("card");
+            NodeList nListRole = doc.getElementsByTagName("part");
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
+            int roleXmlPos = 0;
+            for (int temp = 0; temp < nListScene.getLength(); temp++) {
 
-                Node nNode = nList.item(temp);
+                Node nNodeScene = nListScene.item(temp);
 
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (nNodeScene.getNodeType() == Node.ELEMENT_NODE) {
 
-                    Element eElement = (Element) nNode;
+                    Element eElementScene = (Element) nNodeScene;
 
-                    String sName = eElement.getAttribute("name");
-                    String sBudget = eElement.getAttribute("budget");
-                    String sDescription = eElement.getElementsByTagName("scene").item(0).getTextContent();
+                    String sName = eElementScene.getAttribute("name");
+                    String sBudget = eElementScene.getAttribute("budget");
+                    String sDescription = eElementScene.getElementsByTagName("scene").item(0).getTextContent();
 
-                    Role[] sRoles = new Role[nList.getLength()] ;
+                    Role[] sRoles = new Role[4];
+                    int roleIndex = 0;
 
-                    for(int temp2 = 0; temp2 < nList.getLength(); temp2++){
-                        Node nNode2 = nList2.item(temp2);
-                       if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+                    Node nNodeRole = nListRole.item(roleXmlPos);
+                    while (nNodeScene.compareDocumentPosition(nNodeRole) == 20 && nNodeRole != null) {
+                        if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
 
-                           Element eElement2 = (Element) nNode2;
+                            Element eElementRole = (Element) nNodeRole;
 
-                           String pName = eElement2.getAttribute("name");
-                            String pRank = eElement2.getAttribute("level");
-                            String pDescription = eElement2.getElementsByTagName("line").item(0).getTextContent();
+                            String pName = eElementRole.getAttribute("name");
+                            String pRank = eElementRole.getAttribute("level");
+                            String pDescription = eElementRole.getElementsByTagName("line").item(0).getTextContent();
                             Role r = new Role(pName, pDescription, Integer.parseInt(pRank), true);
-                           sRoles[temp2] = r;
+                            sRoles[roleIndex] = r;
+                            roleIndex++;
+                        }
+                        roleXmlPos++;
+                        if (roleXmlPos < nListRole.getLength()) {
+                            nNodeRole = nListRole.item(roleXmlPos);
+                        } else {
+                            nNodeRole = nListRole.item(0);
                         }
                     }
-                    Scene s = new Scene(sName, sDescription, sRoles, 0);
-                    sceneList.add(s);
+                    Scene s = new Scene(sName, sDescription, sRoles, Integer.parseInt(sBudget), 0);
+                    sceneArray[temp] = s;
                 }
             }
+            return sceneArray;
         } catch (Exception e) {
             e.printStackTrace();
+            Scene[] empty = new Scene[0];
+            return empty;
         }
     }
 
-    private static void startGame(int playerCount){
+
+    private static void startGame(int playerCount) {
         CreatePlayers(playerCount);
     }
 
-    private static ArrayList<Player> CreatePlayers(int playerCount){
+    private static ArrayList<Player> CreatePlayers(int playerCount) {
         ArrayList<Player> pList = new ArrayList<>();
 
-        for(int i=0; i<playerCount; i++){
-            String pName = ("Player"+ String.valueOf(i+1));
-            PlayerCurrency pw = new PlayerCurrency(0,0);
+        for (int i = 0; i < playerCount; i++) {
+            String pName = ("Player" + String.valueOf(i + 1));
+            PlayerCurrency pw = new PlayerCurrency(0, 0);
             //Player p = new Player(pList, Room, false, 0, pw);
-           // pList.add(p);
+            // pList.add(p);
         }
 
         return pList;
     }
 
-    private void setNumDayes(int x){
+    private void setNumDayes(int x) {
         numDays = x;
     }
 
-    private void startDay(int playerCount){
+    private void startDay(int playerCount) {
 
     }
 
-    public int getSceneNum(){
+    public int getSceneNum() {
         return numScenes;
     }
 
-    public void decSceneNum(){
+    public void decSceneNum() {
         numScenes -= 1;
     }
 
-    private void endDay(){
+    private void endDay() {
 
     }
 
-    private String endGame(){
+    private String endGame() {
         return winner;
     }
 
-    private void displayWinner(String congratMessage){
+    private void displayWinner(String congratMessage) {
         System.out.println(congratMessage + " " + winner);
     }
 
