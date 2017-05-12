@@ -5,8 +5,9 @@ public class SceneRoom extends Room {
     private boolean revealScene;
     private Role[] roleList;
 
-    public SceneRoom(String name, int availableCount) {
+    public SceneRoom(String name, int availableCount, Role[] rList) {
         super(name, availableCount);
+        roleList = rList;
     }
 
     public Role[] getRoleList(){

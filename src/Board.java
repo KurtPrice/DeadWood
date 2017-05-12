@@ -24,14 +24,18 @@ public class Board {
 
     public static void main(String args[]) {
         startGame(numPlayer);
-        Scene[] sceneArray = ReadXML();
+        Scene[] sceneArray = readSceneXML();
+        Room[] roomArray = readBoardXML();
     }
 
-    public static Scene[] ReadXML() {
+    /**
+     * Scene XML parser.
+     */
+    private static Scene[] readSceneXML() {
         try {
             Scene[] sceneArray = new Scene[40];
 
-            File fXmlFile = new File("C:/Users/Tom/IdeaProjects/DeadWood/src/cards.xml");
+            File fXmlFile = new File("src/cards.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -81,6 +85,7 @@ public class Board {
                     sceneArray[temp] = s;
                 }
             }
+
             return sceneArray;
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,6 +94,113 @@ public class Board {
         }
     }
 
+    /**
+     * Board XML parser.
+     */
+    private static Room[] readBoardXML() {
+        try {
+            Room[] roomArray = new Room[100];
+
+            File fXmlFile = new File("src/board.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+
+            doc.getDocumentElement().normalize();
+
+            NodeList nListRoom = doc.getElementsByTagName("set");
+            NodeList nListRole = doc.getElementsByTagName("part");
+
+            int partXmlPos = 0;
+            int temp2 = 0;
+            for (int temp = 0; temp < nListRoom.getLength(); temp++) {
+
+                Node nNodeRoom = nListRoom.item(temp);
+
+
+                if (nNodeRoom.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElementRoom = (Element) nNodeRoom;
+
+                    String sName = eElementRoom.getAttribute("name");
+
+                    Role[] sRoles = new Role[4];
+                    int roleIndex = 0;
+
+                    Node nNodeRole = nListRole.item(partXmlPos);
+                    while (nNodeRoom.compareDocumentPosition(nNodeRole) == 20 && nNodeRole != null) {
+                        if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
+
+                            Element eElementRole = (Element) nNodeRole;
+
+                            String pName = eElementRole.getAttribute("name");
+                            String pRank = eElementRole.getAttribute("level");
+                            String pDescription = eElementRole.getElementsByTagName("line").item(0).getTextContent();
+                            Role r = new Role(pName, pDescription, Integer.parseInt(pRank), false);
+                            sRoles[roleIndex] = r;
+                            roleIndex++;
+                        }
+                        partXmlPos++;
+                        if (partXmlPos < nListRole.getLength()) {
+                            nNodeRole = nListRole.item(partXmlPos);
+                        } else {
+                            nNodeRole = nListRole.item(0);
+                        }
+
+                    }
+                    //if();
+                    Room r = new SceneRoom(sName, 0, sRoles);
+                    for (int i = 0; i < (eElementRoom.getElementsByTagName("neighbor").getLength()); i++) {
+                        Node neighborNode = eElementRoom.getElementsByTagName("neighbor").item(i);
+                        if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElementNeighbor = (Element) neighborNode;
+                            String neighborName = eElementNeighbor.getAttribute("name");
+                            Room r2 = new Room(neighborName, 0);
+                            r.addAdjRoom(r2);
+                        }
+                    }
+                    roomArray[temp] = r;
+                }
+                temp2++;
+            }
+            NodeList trailer = doc.getElementsByTagName("trailer");
+            Node nTrailer = trailer.item(0);
+            if (nTrailer.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element eElementTrailer = (Element) nTrailer;
+                Room r = new Room("trailer", 0);
+                for (int i = 0; i < (eElementTrailer.getElementsByTagName("neighbor").getLength()); i++) {
+                    Node neighborNode = eElementTrailer.getElementsByTagName("neighbor").item(i);
+                    Element eElementNeighbor = (Element) neighborNode;
+                    String neighborName = eElementNeighbor.getAttribute("name");
+                    Room r2 = new Room(neighborName, 0);
+                    r.addAdjRoom(r2);
+                }
+                roomArray[temp2] = r;
+                temp2++;
+            }
+            NodeList office = doc.getElementsByTagName("office");
+            Node nOffice = office.item(0);
+            if (nOffice.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element eElementTrailer = (Element) nOffice;
+                Room r = new Room("office", 0);
+                for (int i = 0; i < (eElementTrailer.getElementsByTagName("neighbor").getLength()); i++) {
+                    Node neighborNode = eElementTrailer.getElementsByTagName("neighbor").item(i);
+                    Element eElementNeighbor = (Element) neighborNode;
+                    String neighborName = eElementNeighbor.getAttribute("name");
+                    Room r2 = new Room(neighborName, 0);
+                    r.addAdjRoom(r2);
+                }
+                roomArray[temp2] = r;
+            }
+            return roomArray;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Room[] empty = new Room[0];
+            return empty;
+        }
+    }
 
     private static void startGame(int playerCount) {
         CreatePlayers(playerCount);

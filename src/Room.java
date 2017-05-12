@@ -3,7 +3,7 @@
  */
 public class Room {
     private String roomName;
-    private Room[] adjRooms;
+    private Room[] adjRooms = new Room[0];
     public int numberPlayers;
 
     public Room(String name, int availableCount){
@@ -29,6 +29,7 @@ public class Room {
             tempt[i] = adjRooms[i];
         }
         tempt[adjRooms.length] = adjRoom;
+        adjRooms = tempt;
     }
 
 }
