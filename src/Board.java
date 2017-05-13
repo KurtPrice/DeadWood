@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * Created by pricek21 on 5/2/17.
@@ -17,6 +18,7 @@ public class Board {
     private static UIText UI = new UIText();
     private static int numPlayer = UI.numberPlayers();
     private ArrayList<Player> playerList;
+    private static ArrayList<Integer> usedScenes = new ArrayList<>();
     private static Scene[] sceneArray;
     private static Room[] roomArray;
     private static int numDays = 4;
@@ -90,12 +92,11 @@ public class Board {
                     sceneArray[temp] = s;
                 }
             }
-
             return sceneArray;
         } catch (Exception e) {
             e.printStackTrace();
-            Scene[] empty = new Scene[0];
-            return empty;
+            Scene[] s = new Scene[0];
+            return s;
         }
     }
 
@@ -104,8 +105,7 @@ public class Board {
      */
     private static Room[] readBoardXML() {
         try {
-            Room[] roomArray = new Room[100];
-
+            Room[] roomArray = new Room[12];
             File fXmlFile = new File("src/board.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -153,7 +153,7 @@ public class Board {
                         }
 
                     }
-                    Room r = new SceneRoom(sName, 0, sRoles);
+                    SceneRoom r = new SceneRoom(sName, 0, sRoles);
                     for (int i = 0; i < (eElementRoom.getElementsByTagName("neighbor").getLength()); i++) {
                         Node neighborNode = eElementRoom.getElementsByTagName("neighbor").item(i);
                         if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
@@ -201,8 +201,8 @@ public class Board {
             return roomArray;
         } catch (Exception e) {
             e.printStackTrace();
-            Room[] empty = new Room[0];
-            return empty;
+            Room[] r = new Room[0];
+            return  r;
         }
     }
 
@@ -253,10 +253,26 @@ public class Board {
     }
 
     private static void startDay(Player [] playerList) {
+
+        for(int i=0; i<10; i++){
+           setScenes(i);
+        }
         for (int i = 0; i < playerList.length; i++){
                 UI.turn(playerList[i]);
             }
-        }
+    }
+
+    private static int setScenes(int i){
+        Random rand = new Random();
+        SceneRoom sr  = (SceneRoom)roomArray[i];
+        int n = rand.nextInt(39);
+        if(usedScenes.contains(n)){
+            return setScenes(i);
+        }else{
+            sr.setRoomScene(sceneArray[n]);
+            usedScenes.add(n);}
+            return 0;
+    }
 
     public int getSceneNum() {
         return numScenes;

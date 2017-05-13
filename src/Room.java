@@ -6,6 +6,8 @@ public class Room {
     private Room[] adjRooms = new Room[0];
     public int numberPlayers;
 
+    public Room(){}
+
     public Room(String name, int availableCount){
         roomName = name;
         numberPlayers = availableCount;

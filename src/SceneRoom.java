@@ -4,6 +4,11 @@
 public class SceneRoom extends Room {
     private boolean revealScene;
     private Role[] roleList;
+    private Scene roomScene;
+
+    public SceneRoom(){
+        super();
+    }
 
     public SceneRoom(String name, int availableCount, Role[] rList) {
         super(name, availableCount);
@@ -13,7 +18,18 @@ public class SceneRoom extends Room {
     public Role[] getRoleList(){
         return roleList;
     }
-    private void revealScene(){
 
+    public void setRoomScene(Scene cScene){
+        roomScene = cScene;
     }
+    public Scene getRoomScene(){
+        return roomScene;
+    }
+
+    /**
+     * I don't believe this is necessary for text UI.
+     */
+    // private void revealScene(){
+    //    }
+
 }

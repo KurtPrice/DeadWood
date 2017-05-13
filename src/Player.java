@@ -51,11 +51,31 @@ public class Player {
         }
 
         if(found){
-            System.out.println("Moving to " + goalName);
+            //System.out.println("Moving to " + goalName);
             playerLoc = goalRoom;
         } else{
-            System.out.println("Could not move to " + goalName);
-            System.out.println("Room must be adjacent to players current room.");
+            //System.out.println("Could not move to " + goalName);
+            //System.out.println("Room must be adjacent to players current room.");
+        }
+    }
+
+    public void move(SceneRoom goalRoom){
+        Room[] adjRooms = playerLoc.getAdjRooms();
+        String goalName = goalRoom.getRoomName();
+        boolean found = false;
+        for(Room room: adjRooms){
+            if(goalRoom == room){
+                found = true;
+                break;
+            }
+        }
+
+        if(found){
+            //System.out.println("Moving to " + goalName);
+            playerLoc = goalRoom;
+        } else{
+            //System.out.println("Could not move to " + goalName);
+            //System.out.println("Room must be adjacent to players current room.");
         }
     }
 
