@@ -17,15 +17,20 @@ public class Board {
     private static UIText UI = new UIText();
     private static int numPlayer = UI.numberPlayers();
     private ArrayList<Player> playerList;
-    private int numDays;
+    private static Scene[] sceneArray;
+    private static Room[] roomArray;
+    private static int numDays = 4;
     private int numScenes;
     private String winner;
 
 
     public static void main(String args[]) {
-        startGame(numPlayer);
-        Scene[] sceneArray = readSceneXML();
-        Room[] roomArray = readBoardXML();
+        sceneArray = readSceneXML();
+        roomArray = readBoardXML();
+        Player[] playerList = startGame(numPlayer);
+        for(int i = 0; i < numDays; i++){
+            startDay(playerList);
+        }
     }
 
     /**
@@ -148,7 +153,6 @@ public class Board {
                         }
 
                     }
-                    //if();
                     Room r = new SceneRoom(sName, 0, sRoles);
                     for (int i = 0; i < (eElementRoom.getElementsByTagName("neighbor").getLength()); i++) {
                         Node neighborNode = eElementRoom.getElementsByTagName("neighbor").item(i);
@@ -202,20 +206,45 @@ public class Board {
         }
     }
 
-    private static void startGame(int playerCount) {
-        CreatePlayers(playerCount);
+    /**
+     *Method that chooses initial conditions based off of number of players.
+     */
+    private static Player[] startGame(int playerCount)
+    {
+        int startRank = 1;
+        int startCredit = 0;
+        switch (playerCount){
+            case 2: numDays = 3;
+                break;
+            case 3: numDays = 3;
+                break;
+            case 5: startCredit = 2;
+                break;
+            case 6:  startCredit = 4;
+                break;
+            case 7: startRank = 2;
+                break;
+            case 8: startRank = 2;
+                break;
+            default:
+                break;
+        }
+        Player[] pList = CreatePlayers(playerCount, startRank, startCredit);
+      return pList;
     }
 
-    private static ArrayList<Player> CreatePlayers(int playerCount) {
-        ArrayList<Player> pList = new ArrayList<>();
+    /**
+     *Method that creates player objects with initial conditions as passed.
+     */
+    private static Player[] CreatePlayers(int playerCount, int startRank, int startCredit) {
+        Player[] pList = new Player[playerCount];
 
         for (int i = 0; i < playerCount; i++) {
-            String pName = ("Player" + String.valueOf(i + 1));
-            PlayerCurrency pw = new PlayerCurrency(0, 0);
-            //Player p = new Player(pList, Room, false, 0, pw);
-            // pList.add(p);
+            String pName = ("Player " + String.valueOf(i + 1));
+            PlayerCurrency pw = new PlayerCurrency(startCredit, 0);
+            Player p = new Player(pName, startRank, roomArray[10], false, 0, pw);
+            pList[i]=p;
         }
-
         return pList;
     }
 
@@ -223,9 +252,11 @@ public class Board {
         numDays = x;
     }
 
-    private void startDay(int playerCount) {
-
-    }
+    private static void startDay(Player [] playerList) {
+        for (int i = 0; i < playerList.length; i++){
+                UI.turn(playerList[i]);
+            }
+        }
 
     public int getSceneNum() {
         return numScenes;

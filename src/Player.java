@@ -6,6 +6,7 @@ public class Player {
     private String playerName;
     private int playerRank;
     private Room playerLoc;
+    private Role playerRole;
     private boolean roleTaken;
     private PlayerCurrency wallet;
     public int pracChips;
@@ -58,8 +59,13 @@ public class Player {
         }
     }
 
-    public void takeRole(){
+    public String getRoleName(){
+        if(playerRole != null){return playerRole.getRoleName();}else{return "No Current Role";}
+    }
+
+    public void takeRole(Role currentRole){
         roleTaken = true;
+        playerRole = currentRole;
     }
 
     public void leaveRole(){
