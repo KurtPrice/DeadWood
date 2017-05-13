@@ -153,7 +153,12 @@ public class Board {
                         }
 
                     }
-                    SceneRoom r = new SceneRoom(sName, 0, sRoles);
+                    Role[] shrunkRoles = new Role[roleIndex];
+                    for(int i=0; i<roleIndex; i++){
+                        shrunkRoles[i] = sRoles[i];
+                    }
+                    SceneRoom r = new SceneRoom(sName, 0, shrunkRoles);
+                    r.setSceneRoom(true);
                     for (int i = 0; i < (eElementRoom.getElementsByTagName("neighbor").getLength()); i++) {
                         Node neighborNode = eElementRoom.getElementsByTagName("neighbor").item(i);
                         if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
@@ -258,7 +263,7 @@ public class Board {
            setScenes(i);
         }
         for (int i = 0; i < playerList.length; i++){
-                UI.turn(playerList[i]);
+                UI.turn(playerList[i],roomArray);
             }
     }
 

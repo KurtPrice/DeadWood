@@ -4,6 +4,7 @@
 public class Room {
     private String roomName;
     private Room[] adjRooms = new Room[0];
+    private boolean isSceneRoom = false;
     public int numberPlayers;
 
     public Room(){}
@@ -20,6 +21,16 @@ public class Room {
     public Room[] getAdjRooms(){
         return adjRooms;
     }
+
+    public boolean getSceneRoom(){
+        return isSceneRoom;
+    }
+
+    public void setSceneRoom(boolean b){
+        isSceneRoom = b;
+    }
+
+
 
     public int getNumberPlayers(){
         return numberPlayers;

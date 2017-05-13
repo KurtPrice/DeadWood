@@ -5,7 +5,7 @@
 import java.util.*;
 
 public class UIText {
-    private Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);
 
     public int numberPlayers() {
         System.out.println("How many players are playing?");
@@ -24,7 +24,7 @@ public class UIText {
         }
     }
 
-    public void turn(Player currentPlayer) {
+    public static void turn(Player currentPlayer, Room[] roomArray) {
         System.out.println(currentPlayer.getPlayerName() + "'s turn.");
         boolean end = false;
         boolean moveAble = true;
@@ -32,10 +32,12 @@ public class UIText {
             System.out.println("what would you like to do?");
             String entry = sc.nextLine();
             String currentScene;
-            SceneRoom nul = new SceneRoom();
-            if (currentPlayer.getPlayerLoc().equals(nul)) {
+            Role[] availableRoles = new Role[0];
+
+            if (currentPlayer.getPlayerLoc().getSceneRoom()) {
                 SceneRoom r = (SceneRoom) currentPlayer.getPlayerLoc();
                 currentScene = r.getRoomScene().getSceneName();
+                availableRoles = r.getRoleList();
             } else {
                 currentScene = "No current scene";
             }
@@ -49,10 +51,15 @@ public class UIText {
             }
             switch (entrySplit[0]) {
                 case "who":
-                    System.out.println("Current player: " + currentPlayer.getPlayerName() + ", Current Part: " + currentPlayer.getRoleName());
+                    System.out.println("Current player: " + currentPlayer.getPlayerName()+" ($"+currentPlayer.getWallet().getDollars()+", "+currentPlayer.getWallet().getCredits()+"cd), Current Part: " + currentPlayer.getRoleName());
                     break;
                 case "where":
                     System.out.println("Current player's room: " + currentPlayer.getPlayerLoc().getRoomName() + ", Active scene: " + currentScene);
+                    if (availableRoles.length != 0){System.out.print("Available Roles: ");}
+                    for(int i=0; i<availableRoles.length; i++){
+                        System.out.print("("+availableRoles[i].getRoleName()+" Rank: "+availableRoles[i].getRoleRank()+") ");
+                    }
+                    System.out.println();
                     break;
                 case "move":
                     if (moveAble == false) {
@@ -61,7 +68,12 @@ public class UIText {
                     }
                     for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
                         if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName()) || (entrySplit[1] + " " + entrySplit[2]).equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
-                            currentPlayer.move((currentPlayer.getPlayerLoc().getAdjRooms())[i]);
+                            for(int j=0; j<roomArray.length; j++){
+                                if((roomArray[j].getRoomName()).equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())){
+                                    currentPlayer.move(roomArray[j]);
+                                    break;
+                                }
+                            }
                             System.out.println("Move successful.");
                             moveAble = false;
                             break;
