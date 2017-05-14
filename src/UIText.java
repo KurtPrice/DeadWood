@@ -32,32 +32,32 @@ public class UIText {
             System.out.println("what would you like to do?");
             String entry = sc.nextLine();
             String currentScene;
-            Role[] availableRoles = new Role[0];
+            Role[] availRolesScene = new Role[0];
+            Role[] availRolesRoom = new Role[0];
 
             if (currentPlayer.getPlayerLoc().getSceneRoom()) {
                 SceneRoom r = (SceneRoom) currentPlayer.getPlayerLoc();
                 currentScene = r.getRoomScene().getSceneName();
-                availableRoles = r.getRoleList();
+                availRolesScene = r.getRoomScene().getRoleList();
+                availRolesRoom = r.getRoleList();
             } else {
                 currentScene = "No current scene";
             }
 
-            String[] entrySplit = entry.split(" ");
-            if (entrySplit.length == 1) {
-                entrySplit = new String[]{entrySplit[0], "null", "null"};
-            }
-            if (entrySplit.length == 2) {
-                entrySplit = new String[]{entrySplit[0], entrySplit[1], "null"};
-            }
+            String[] entrySplit = entry.split(" ", 2);
+
             switch (entrySplit[0]) {
                 case "who":
                     System.out.println("Current player: " + currentPlayer.getPlayerName()+" ($"+currentPlayer.getWallet().getDollars()+", "+currentPlayer.getWallet().getCredits()+"cd), Current Part: " + currentPlayer.getRoleName());
                     break;
                 case "where":
                     System.out.println("Current player's room: " + currentPlayer.getPlayerLoc().getRoomName() + ", Active scene: " + currentScene);
-                    if (availableRoles.length != 0){System.out.print("Available Roles: ");}
-                    for(int i=0; i<availableRoles.length; i++){
-                        System.out.print("("+availableRoles[i].getRoleName()+" Rank: "+availableRoles[i].getRoleRank()+") ");
+                    if (availRolesScene.length != 0 || availRolesRoom.length != 0){System.out.print("Available Roles: ");}
+                    for(int i=0; i<availRolesScene.length; i++){
+                        System.out.print("("+availRolesScene[i].getRoleName()+", Rank: "+availRolesScene[i].getRoleRank()+") ");
+                    }
+                    for(int j=0; j<availRolesRoom.length; j++){
+                        System.out.print("("+availRolesRoom[j].getRoleName()+", Rank: "+availRolesRoom[j].getRoleRank()+") ");
                     }
                     System.out.println();
                     break;
@@ -67,7 +67,7 @@ public class UIText {
                         break;
                     }
                     for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
-                        if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName()) || (entrySplit[1] + " " + entrySplit[2]).equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
+                        if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
                             for(int j=0; j<roomArray.length; j++){
                                 if((roomArray[j].getRoomName()).equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())){
                                     currentPlayer.move(roomArray[j]);
@@ -83,7 +83,19 @@ public class UIText {
                         System.out.println("Not a valid room please try again.");
                     }
                     break;
-                case "work":
+                case "work":if (availRolesScene.length == 0 && availRolesRoom.length == 0){System.out.print("No Available Roles."); break;}
+                    for(int i=0; i<availRolesScene.length; i++){
+                        if(currentPlayer.getPlayerRank() >= availRolesScene[i].getRoleRank() && availRolesScene[i].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
+                            currentPlayer.takeRole(availRolesScene[i]);
+                            System.out.println("Role Taken");
+                        }
+                    }
+                    for(int j=0; j<availRolesRoom.length; j++){
+                        if(currentPlayer.getPlayerRank() >= availRolesScene[j].getRoleRank() && availRolesScene[j].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
+                            currentPlayer.takeRole(availRolesScene[j]);
+                            System.out.println("Role Taken");
+                        }
+                    }
                     break;
                 case "upgrade":
                     if (entrySplit[1] == "$") {

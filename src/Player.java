@@ -36,6 +36,8 @@ public class Player {
         return wallet;
     }
 
+    public boolean getRoleTaken(){return roleTaken;}
+
     public void moveOptions(Room playerLoc){
         Room[] adjRooms = playerLoc.getAdjRooms();
         for(Room room: adjRooms){

@@ -88,7 +88,11 @@ public class Board {
                             nNodeRole = nListRole.item(0);
                         }
                     }
-                    Scene s = new Scene(sName, sDescription, sRoles, Integer.parseInt(sBudget), 0);
+                    Role[] shrunkRoles = new Role[roleIndex];
+                    for(int i=0; i<roleIndex; i++){
+                        shrunkRoles[i] = sRoles[i];
+                    }
+                    Scene s = new Scene(sName, sDescription, shrunkRoles, Integer.parseInt(sBudget), 0);
                     sceneArray[temp] = s;
                 }
             }

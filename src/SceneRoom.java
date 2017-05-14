@@ -6,10 +6,6 @@ public class SceneRoom extends Room {
     private Role[] roleList;
     private Scene roomScene;
 
-    public SceneRoom(){
-        super();
-    }
-
     public SceneRoom(String name, int availableCount, Role[] rList) {
         super(name, availableCount);
         roleList = rList;
