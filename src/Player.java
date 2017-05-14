@@ -28,6 +28,10 @@ public class Player {
         return playerRank;
     }
 
+    public void setPlayerRank(int rank){
+        playerRank = rank;
+    }
+
     public Room getPlayerLoc(){
         return playerLoc;
     }

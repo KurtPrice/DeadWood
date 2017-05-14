@@ -62,10 +62,8 @@ public class UIText {
                     System.out.println();
                     break;
                 case "move":
-                    if (moveAble == false) {
-                        System.out.println("Already moved.");
-                        break;
-                    }
+                    if (moveAble == false) {System.out.println("Already moved.");break;}
+                    if (currentPlayer.getRoleTaken()){System.out.println("Can't move while working a role."); break;}
                     for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
                         if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
                             for(int j=0; j<roomArray.length; j++){
@@ -83,25 +81,46 @@ public class UIText {
                         System.out.println("Not a valid room please try again.");
                     }
                     break;
-                case "work":if (availRolesScene.length == 0 && availRolesRoom.length == 0){System.out.print("No Available Roles."); break;}
+                case "work":if (availRolesScene.length == 0 && availRolesRoom.length == 0){System.out.println("No Available Roles."); break;}
+                    boolean taken = false;
+                    if(currentPlayer.getRoleTaken()){System.out.println("Already working a role."); break;}
                     for(int i=0; i<availRolesScene.length; i++){
                         if(currentPlayer.getPlayerRank() >= availRolesScene[i].getRoleRank() && availRolesScene[i].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
                             currentPlayer.takeRole(availRolesScene[i]);
                             System.out.println("Role Taken");
+                            taken = true;
                         }
                     }
                     for(int j=0; j<availRolesRoom.length; j++){
-                        if(currentPlayer.getPlayerRank() >= availRolesScene[j].getRoleRank() && availRolesScene[j].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
-                            currentPlayer.takeRole(availRolesScene[j]);
+                        if(currentPlayer.getPlayerRank() >= availRolesRoom[j].getRoleRank() && availRolesRoom[j].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
+                            currentPlayer.takeRole(availRolesRoom[j]);
                             System.out.println("Role Taken");
+                            taken = true;
                         }
                     }
+                    if(taken == false){System.out.println("Role not taken. Either not a valid role or not high enough rank.");}
                     break;
+               //Upgrade not tested fully
                 case "upgrade":
-                    if (entrySplit[1] == "$") {
-                    }
-                    if (entrySplit[1] == "cr") {
-                    }
+                   // if(!(currentPlayer.getPlayerLoc().equals(roomArray[11]))){System.out.println("Not in casting office, can't upgrade.");break;}
+                    String[] entrySplitCur = entrySplit[1].split(" ", 2);
+                    CastingOffice co = (CastingOffice)roomArray[11];
+                    boolean success = false;
+                    if (entrySplitCur[0].equals("$")) {
+                        try {
+                            success = co.rankPlayerDollar(Integer.parseInt(entrySplitCur[1]),currentPlayer);
+                        } catch (Exception e) {}
+                        if(success){
+                            System.out.println("Rank up successful.");
+                        }else{System.out.println("Rank up unsuccessful.");}
+                    }else if (entrySplitCur[0].equals("cr")) {
+                        try {
+                            success = co.rankPlayerDollar(Integer.parseInt(entrySplitCur[1]), currentPlayer);
+                        }catch (Exception e){}
+                        if(success){
+                            System.out.println("Rank up successful.");
+                        }else{System.out.println("Rank up unsuccessful.");}
+                    }else{System.out.println("Specify upgrade type with $ or cr, please try again.");}
                     break;
                 case "rehearse":
                     break;

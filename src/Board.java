@@ -196,16 +196,30 @@ public class Board {
             Node nOffice = office.item(0);
             if (nOffice.getNodeType() == Node.ELEMENT_NODE) {
 
-                Element eElementTrailer = (Element) nOffice;
-                Room r = new Room("office", 0);
-                for (int i = 0; i < (eElementTrailer.getElementsByTagName("neighbor").getLength()); i++) {
-                    Node neighborNode = eElementTrailer.getElementsByTagName("neighbor").item(i);
+                Element eElementOffice = (Element) nOffice;
+                CastingOffice co = new CastingOffice("office", 0);
+                for (int i = 0; i < (eElementOffice.getElementsByTagName("neighbor").getLength()); i++) {
+                    Node neighborNode = eElementOffice.getElementsByTagName("neighbor").item(i);
                     Element eElementNeighbor = (Element) neighborNode;
                     String neighborName = eElementNeighbor.getAttribute("name");
                     Room r2 = new Room(neighborName, 0);
-                    r.addAdjRoom(r2);
+                    co.addAdjRoom(r2);
                 }
-                roomArray[temp2] = r;
+                for (int j = 0; j < (eElementOffice.getElementsByTagName("upgrade").getLength()); j++) {
+                    Node upgradeNode = eElementOffice.getElementsByTagName("upgrade").item(j);
+                    Element eElementUpgrade = (Element) upgradeNode;
+                    String upgradeType = eElementUpgrade.getAttribute("currency");
+                    if(upgradeType.equals("dollar")){
+                        Integer level = Integer.parseInt(eElementUpgrade.getAttribute("level"));
+                        Integer amt = Integer.parseInt(eElementUpgrade.getAttribute("amt"));
+                        co.setRankRequireDollar(level,amt);
+                    }else{
+                        Integer level = Integer.parseInt(eElementUpgrade.getAttribute("level"));
+                        Integer amt = Integer.parseInt(eElementUpgrade.getAttribute("amt"));
+                        co.setRankRequireCredit(level,amt);
+                    }
+                }
+                roomArray[temp2] = co;
             }
             return roomArray;
         } catch (Exception e) {
