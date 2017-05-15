@@ -56,7 +56,9 @@ public class UIText {
 
             switch (entrySplit[0]) {
                 case "who":
-                    System.out.println("Current player: " + currentPlayer.getPlayerName()+" ($"+currentPlayer.getWallet().getDollars()+", "+currentPlayer.getWallet().getCredits()+"cd), Current Part: " + currentPlayer.getRoleName());
+                    System.out.println("Current player: " + currentPlayer.getPlayerName()+" ($"+currentPlayer.getWallet().getDollars()+", "
+                                       +currentPlayer.getWallet().getCredits()+"cd), Current Part: " + currentPlayer.getRoleName()
+                                       +" Rank " + currentPlayer.getPlayerRank());
                     break;
                 case "where":
                     System.out.println("Current player's room: " + currentPlayer.getPlayerLoc().getRoomName() + ", Active scene: " + currentSceneN+", Description: "+currentSceneD);
