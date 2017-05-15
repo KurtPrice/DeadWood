@@ -29,9 +29,10 @@ public class Role {
         return onCardRole;
     }
 
-    public boolean takeRole(int playerRank){
-        return false;
-    }
+    //public boolean takeRole(int playerRank){
+    //    return false;
+    //}
+
     public int getRoleRank(){
         return roleRank;
     }

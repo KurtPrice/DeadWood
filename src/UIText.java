@@ -1,28 +1,9 @@
+import java.util.*;
 /**
  * Created by eddyt on 5/10/17.
  */
-
-import java.util.*;
-
 public class UIText {
     private static Scanner sc = new Scanner(System.in);
-
-    public int numberPlayers() {
-        System.out.println("How many players are playing?");
-        String entry = sc.nextLine();
-        if (isStringInt(entry) == true) {
-            int pCount = Integer.parseInt(entry);
-            if (pCount >= 2 & pCount <= 8) {
-                return pCount;
-            } else {
-                System.out.println("Invalid number of players enter a number between 2 and 8");
-                return numberPlayers();
-            }
-        } else {
-            System.out.println("Invalid number of players enter a number between 2 and 8");
-            return numberPlayers();
-        }
-    }
 
     public static boolean turn(Player currentPlayer, Room[] roomArray) {
         System.out.println(currentPlayer.getPlayerName() + "'s turn.");
@@ -30,7 +11,7 @@ public class UIText {
         boolean moveAble = true;
         boolean actAble = true;
         boolean finishScene = false;
-        while (end == false) {
+        while (!end) {
             System.out.println("what would you like to do?");
             String entry = sc.nextLine();
             String currentSceneN;
@@ -40,7 +21,7 @@ public class UIText {
 
             if (currentPlayer.getPlayerLoc().getSceneRoom()) {
                 SceneRoom r = (SceneRoom) currentPlayer.getPlayerLoc();
-                if(r.getSceneFinish()==false){
+                if(!r.getSceneFinish()){
                 currentSceneN = r.getRoomScene().getSceneName();
                 currentSceneD = r.getRoomScene().getSceneDescription();
                 availRolesScene = r.getRoomScene().getRoleList();
@@ -56,28 +37,29 @@ public class UIText {
 
             switch (entrySplit[0]) {
                 case "who":
-                    System.out.println("Current player: " + currentPlayer.getPlayerName()+" ($"+currentPlayer.getWallet().getDollars()+", "+currentPlayer.getWallet().getCredits()+"cd), Current Part: " + currentPlayer.getRoleName());
+                    System.out.println("Current player: " + currentPlayer.getPlayerName()+" ($"+currentPlayer.getWallet().getDollars()+", "+currentPlayer.getWallet().getCredits()+"cd), Current Part: " + currentPlayer.getRoleName()+", Part Description: "+currentPlayer.getRoleDesc());
                     break;
                 case "where":
                     System.out.println("Current player's room: " + currentPlayer.getPlayerLoc().getRoomName() + ", Active scene: " + currentSceneN+", Description: "+currentSceneD);
                     if (availRolesScene.length != 0 || availRolesRoom.length != 0){System.out.print("Available Roles: ");}
-                    for(int i=0; i<availRolesScene.length; i++){
-                        System.out.print("("+availRolesScene[i].getRoleName()+", Rank: "+availRolesScene[i].getRoleRank()+") ");
+                    for(Role rs : availRolesScene){
+                        System.out.print("("+rs.getRoleName()+", Rank: "+rs.getRoleRank()+") ");
                     }
-                    for(int j=0; j<availRolesRoom.length; j++){
-                        System.out.print("("+availRolesRoom[j].getRoleName()+", Rank: "+availRolesRoom[j].getRoleRank()+") ");
+                    for(Role rr : availRolesRoom){
+                        System.out.print("("+rr.getRoleName()+", Rank: "+rr.getRoleRank()+") ");
                     }
                     System.out.println();
                     break;
                 case "move":
-                    if (moveAble == false) {System.out.println("Already moved.");break;}
+                    if (!moveAble) {System.out.println("Already moved.");break;}
                     if (currentPlayer.getRoleTaken()){System.out.println("Can't move while working a role."); break;}
                     for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
                         if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
-                            for(int j=0; j<roomArray.length; j++){
-                                if((roomArray[j].getRoomName()).equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())){
-                                    currentPlayer.move(roomArray[j]);
-                                    roomArray[j].addPlayer(currentPlayer);
+                            for(Room r : roomArray){
+                                if((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName().equals(r.getRoomName())){
+                                    currentPlayer.move(r);
+                                    currentPlayer.getPlayerLoc().removePlayer(currentPlayer);
+                                    r.addPlayer(currentPlayer);
                                     break;
                                 }
                             }
@@ -86,7 +68,7 @@ public class UIText {
                             break;
                         }
                     }
-                    if (moveAble == true) {
+                    if (moveAble) {
                         System.out.println("Not a valid room please try again.");
                     }
                     break;
@@ -95,21 +77,21 @@ public class UIText {
                     if (availRolesScene.length == 0 && availRolesRoom.length == 0){System.out.println("No Available Roles."); break;}
                     boolean taken = false;
                     if(currentPlayer.getRoleTaken()){System.out.println("Already working a role."); break;}
-                    for(int i=0; i<availRolesScene.length; i++){
-                        if(currentPlayer.getPlayerRank() >= availRolesScene[i].getRoleRank() && availRolesScene[i].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
-                            currentPlayer.takeRole(availRolesScene[i]);
+                    for(Role rs : availRolesScene){
+                        if(currentPlayer.getPlayerRank() >= rs.getRoleRank() && rs.getRoleName().equals(entrySplit[1]) && !currentPlayer.getRoleTaken()){
+                            currentPlayer.takeRole(rs);
                             System.out.println("Role Taken");
                             taken = true;
                         }
                     }
-                    for(int j=0; j<availRolesRoom.length; j++){
-                        if(currentPlayer.getPlayerRank() >= availRolesRoom[j].getRoleRank() && availRolesRoom[j].getRoleName().equals(entrySplit[1]) && currentPlayer.getRoleTaken() == false){
-                            currentPlayer.takeRole(availRolesRoom[j]);
+                    for(Role rr : availRolesRoom){
+                        if(currentPlayer.getPlayerRank() >= rr.getRoleRank() && rr.getRoleName().equals(entrySplit[1]) && !currentPlayer.getRoleTaken()){
+                            currentPlayer.takeRole(rr);
                             System.out.println("Role Taken");
                             taken = true;
                         }
                     }
-                    if(taken == false){System.out.println("Role not taken. Either not a valid role or not high enough rank.");}
+                    if(!taken){System.out.println("Role not taken. Either not a valid role or not high enough rank.");}
                     break;
                //Upgrade not tested fully
                 case "upgrade":
@@ -117,24 +99,34 @@ public class UIText {
                     String[] entrySplitCur = entrySplit[1].split(" ", 2);
                     CastingOffice co = (CastingOffice)roomArray[11];
                     boolean success = false;
-                    if (entrySplitCur[0].equals("$")) {
-                        try {
-                            success = co.rankPlayerDollar(Integer.parseInt(entrySplitCur[1]),currentPlayer);
-                        } catch (Exception e) {}
-                        if(success){
-                            System.out.println("Rank up successful.");
-                        }else{System.out.println("Rank up unsuccessful.");}
-                    }else if (entrySplitCur[0].equals("cr")) {
-                        try {
-                            success = co.rankPlayerDollar(Integer.parseInt(entrySplitCur[1]), currentPlayer);
-                        }catch (Exception e){}
-                        if(success){
-                            System.out.println("Rank up successful.");
-                        }else{System.out.println("Rank up unsuccessful.");}
-                    }else{System.out.println("Specify upgrade type with $ or cr, please try again.");}
+                    switch (entrySplitCur[0]) {
+                        case "$":
+                            try {
+                                success = co.rankPlayerDollar(Integer.parseInt(entrySplitCur[1]), currentPlayer);
+                            } catch (Exception e) {System.out.print("Integer.parseInt fail.");}
+                            if (success) {
+                                System.out.println("Rank up successful.");
+                            } else {
+                                System.out.println("Rank up unsuccessful.");
+                            }
+                            break;
+                        case "cr":
+                            try {
+                                success = co.rankPlayerCredit(Integer.parseInt(entrySplitCur[1]), currentPlayer);
+                            } catch (Exception e) {System.out.print("Integer.parseInt fail.");}
+                            if (success) {
+                                System.out.println("Rank up successful.");
+                            } else {
+                                System.out.println("Rank up unsuccessful.");
+                            }
+                            break;
+                        default:
+                            System.out.println("Specify upgrade type with $ or cr, please try again.");
+                            break;
+                    }
                     break;
                 case "rehearse":
-                    if(actAble == false){System.out.println("You have already acted or rehearsed.");break;}
+                    if(!actAble){System.out.println("You have already acted or rehearsed.");break;}
                     if(currentPlayer.getRoleTaken()){
                         SceneRoom sr = (SceneRoom)currentPlayer.getPlayerLoc();
                         int budget = sr.getRoomScene().getBudget();
@@ -146,7 +138,7 @@ public class UIText {
                     }else{System.out.println("No role to rehearse.");}
                     break;
                 case "act":
-                    if(actAble == false){System.out.println("You have already acted or rehearsed.");break;}
+                    if(!actAble){System.out.println("You have already acted or rehearsed.");break;}
                     if(currentPlayer.getRoleTaken()){
                         actAble=false;
                         SceneRoom sr = (SceneRoom)currentPlayer.getPlayerLoc();
@@ -156,21 +148,21 @@ public class UIText {
                         System.out.println("You rolled a "+dieRole);
                         if(budget < (currentPlayer.pracChips + dieRole)){
                             if(currentPlayer.getRole().getOnCardRole()){
-                                sr.shotCounters--;
+                                sr.tempShotCounters--;
                                 currentPlayer.getWallet().incCredits(2);
                             }else{
-                                sr.shotCounters--;
+                                sr.tempShotCounters--;
                                 currentPlayer.getWallet().incDollars(1);
                                 currentPlayer.getWallet().incCredits(1);
                             }
                             System.out.println("Act successful!");
                         }else{
-                            if(currentPlayer.getRole().getOnCardRole() ==false){
+                            if(!currentPlayer.getRole().getOnCardRole()){
                                 currentPlayer.getWallet().incDollars(1);
                             }
                             System.out.println("Act unsuccessful.");
                         }
-                        if (sr.shotCounters == 0){System.out.println("That's a wrap!");finishScene = true; sr.setFinishScene(true);sr.getRoomScene().finishScene(sr);}
+                        if (sr.tempShotCounters == 0){System.out.println("That's a wrap!");finishScene = true; sr.setFinishScene(true);sr.getRoomScene().finishScene(sr);}
                     }else{System.out.println("No role to act.");}
                     break;
                 case "end":
@@ -182,6 +174,23 @@ public class UIText {
             }
         }
     return finishScene;
+    }
+
+    public int numberPlayers() {
+        System.out.println("How many players are playing?");
+        String entry = sc.nextLine();
+        if (isStringInt(entry)) {
+            int pCount = Integer.parseInt(entry);
+            if (pCount >= 2 & pCount <= 8) {
+                return pCount;
+            } else {
+                System.out.println("Invalid number of players enter a number between 2 and 8");
+                return numberPlayers();
+            }
+        } else {
+            System.out.println("Invalid number of players enter a number between 2 and 8");
+            return numberPlayers();
+        }
     }
 
     public void endDayPrint(){

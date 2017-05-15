@@ -9,14 +9,12 @@ public class Scene {
     private String sceneDescription;
     private Role[] roleList;
     private int budget;
-    private boolean finishScene;
 
     public Scene(String name, String description, Role[] list, int money){
         sceneName = name;
         sceneDescription = description;
         roleList = list;
         budget = money;
-        finishScene = false;
     }
 
     public String getSceneName(){
@@ -96,5 +94,4 @@ public class Scene {
     private void bonusPaymentOffCard(ArrayList<Player> pList){
         for(Player p : pList) p.getWallet().incDollars(p.getRole().getRoleRank());
     }
-
 }

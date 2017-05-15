@@ -12,13 +12,13 @@ public class CastingOffice extends Room {
         super(name, availableCount);
     }
 
-    public HashMap<Integer, Integer> getRankRequireDollar(){
-        return rankRequireDollar;
-    }
+    //public HashMap<Integer, Integer> getRankRequireDollar(){
+    //    return rankRequireDollar;
+    //}
 
-    public HashMap<Integer, Integer> getRankRequireCredit(){
-        return rankRequireCredit;
-    }
+    //public HashMap<Integer, Integer> getRankRequireCredit(){
+    //    return rankRequireCredit;
+    //}
 
     public void setRankRequireDollar(Integer key, Integer value){
         rankRequireDollar.put(key,value);
