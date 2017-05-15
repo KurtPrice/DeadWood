@@ -17,22 +17,24 @@ public class Board {
 
     private static UIText UI = new UIText();
     private static int numPlayer = UI.numberPlayers();
-    private ArrayList<Player> playerList;
+    private static Player[] playerList;
     private static ArrayList<Integer> usedScenes = new ArrayList<>();
     private static Scene[] sceneArray;
     private static Room[] roomArray;
     private static int numDays = 4;
-    private int numScenes;
+    private static int numScenes;
     private String winner;
 
 
     public static void main(String args[]) {
         sceneArray = readSceneXML();
         roomArray = readBoardXML();
-        Player[] playerList = startGame(numPlayer);
+        playerList = startGame(numPlayer);
         for(int i = 0; i < numDays; i++){
             startDay(playerList);
+            endDay();
         }
+        endGame();
     }
 
     /**
@@ -92,7 +94,7 @@ public class Board {
                     for(int i=0; i<roleIndex; i++){
                         shrunkRoles[i] = sRoles[i];
                     }
-                    Scene s = new Scene(sName, sDescription, shrunkRoles, Integer.parseInt(sBudget), 0);
+                    Scene s = new Scene(sName, sDescription, shrunkRoles, Integer.parseInt(sBudget));
                     sceneArray[temp] = s;
                 }
             }
@@ -161,7 +163,8 @@ public class Board {
                     for(int i=0; i<roleIndex; i++){
                         shrunkRoles[i] = sRoles[i];
                     }
-                    SceneRoom r = new SceneRoom(sName, 0, shrunkRoles);
+
+                    SceneRoom r = new SceneRoom(sName, 0, shrunkRoles,eElementRoom.getElementsByTagName("take").getLength());
                     r.setSceneRoom(true);
                     for (int i = 0; i < (eElementRoom.getElementsByTagName("neighbor").getLength()); i++) {
                         Node neighborNode = eElementRoom.getElementsByTagName("neighbor").item(i);
@@ -280,14 +283,28 @@ public class Board {
         for(int i=0; i<10; i++){
            setScenes(i);
         }
-        for (int i = 0; i < playerList.length; i++){
-                UI.turn(playerList[i],roomArray);
+        for(int i=0; i<playerList.length; i++){
+            playerList[i].setPlayerLoc(roomArray[10]);
+        }
+        //Changed for debug.
+        while(numScenes != 9) {
+            for (int i = 0; i < playerList.length; i++) {
+                if (UI.turn(playerList[i], roomArray)) {
+                    numScenes--;
+                }
+                //Changed for debug.
+                if(numScenes == 9){break;}
             }
+        }
+        endDay();
     }
 
+
     private static int setScenes(int i){
+        numScenes = 10;
         Random rand = new Random();
         SceneRoom sr  = (SceneRoom)roomArray[i];
+        sr.setFinishScene(false);
         int n = rand.nextInt(39);
         if(usedScenes.contains(n)){
             return setScenes(i);
@@ -305,16 +322,20 @@ public class Board {
         numScenes -= 1;
     }
 
-    private void endDay() {
-
+    private static void endDay() {
+        UI.endDayPrint();
+        for(Player p : playerList){
+            p.leaveRole();
+        }
     }
-
-    private String endGame() {
-        return winner;
+    private static void endGame() {
+        String winner = "there is a tie!";
+        int highScore = 0;
+        for(Player p : playerList){
+            int score = (5*p.getPlayerRank()+p.getWallet().getDollars()+p.getWallet().getCredits());
+            UI.endGamePrint(p,score);
+            if(score > highScore){winner = p.getPlayerName();}
+        }
+        UI.displayWinner(winner);
     }
-
-    private void displayWinner(String congratMessage) {
-        System.out.println(congratMessage + " " + winner);
-    }
-
 }

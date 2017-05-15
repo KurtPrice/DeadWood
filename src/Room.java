@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Queue;
+
 /**
  * Created by pricek21 on 5/2/17.
  */
@@ -5,9 +9,8 @@ public class Room {
     private String roomName;
     private Room[] adjRooms = new Room[0];
     private boolean isSceneRoom = false;
-    public int numberPlayers;
-
-    public Room(){}
+    private int numberPlayers;
+    public ArrayList<Player> playersInRoom = new ArrayList<>();
 
     public Room(String name, int availableCount){
         roomName = name;
@@ -32,8 +35,13 @@ public class Room {
 
 
 
-    public int getNumberPlayers(){
-        return numberPlayers;
+    public ArrayList<Player> getPlayersInRoom()
+    {
+        return playersInRoom;
+    }
+
+    public void addPlayer(Player playerToAdd){
+        playersInRoom.add(playerToAdd);
     }
 
     public void addAdjRoom(Room adjRoom){

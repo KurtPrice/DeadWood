@@ -32,8 +32,13 @@ public class Player {
         playerRank = rank;
     }
 
-    public Room getPlayerLoc(){
+    public Room getPlayerLoc()
+    {
         return playerLoc;
+    }
+
+    public void setPlayerLoc(Room room){
+        playerLoc = room;
     }
 
     public PlayerCurrency getWallet(){
@@ -73,13 +78,19 @@ public class Player {
         if(playerRole != null){return playerRole.getRoleName();}else{return "No Current Role";}
     }
 
+    public Role getRole(){
+        return  playerRole;
+    }
+
     public void takeRole(Role currentRole){
         roleTaken = true;
         playerRole = currentRole;
     }
 
-    public void leaveRole(){
+    public void leaveRole()
+    {
         roleTaken = false;
+        playerRole = null;
     }
 
     public void practiceRole(int pracChips){

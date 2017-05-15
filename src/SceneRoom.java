@@ -5,10 +5,13 @@ public class SceneRoom extends Room {
     private boolean revealScene;
     private Role[] roleList;
     private Scene roomScene;
+    public int shotCounters;
+    private boolean sceneFinished = false;
 
-    public SceneRoom(String name, int availableCount, Role[] rList) {
+    public SceneRoom(String name, int availableCount, Role[] rList, int shots) {
         super(name, availableCount);
         roleList = rList;
+        shotCounters = shots;
     }
 
     public Role[] getRoleList(){
@@ -16,12 +19,19 @@ public class SceneRoom extends Room {
     }
 
     public void setRoomScene(Scene cScene){
-        roomScene = cScene;
+        roomScene = cScene; sceneFinished= false;
     }
     public Scene getRoomScene(){
         return roomScene;
     }
 
+    public boolean getSceneFinish(){
+        return sceneFinished;
+    }
+
+    public void setFinishScene(boolean b){
+        sceneFinished = b;
+    }
     /**
      * I don't believe this is necessary for text UI.
      */

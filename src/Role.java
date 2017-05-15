@@ -20,8 +20,13 @@ public class Role {
         return roleName;
     }
 
-    public String getRoleDescription(){
+    public String getRoleDescription()
+    {
         return roleDescription;
+    }
+
+    public boolean getOnCardRole(){
+        return onCardRole;
     }
 
     public boolean takeRole(int playerRank){
