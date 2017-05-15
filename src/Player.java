@@ -47,16 +47,27 @@ public class Player {
 
     public boolean getRoleTaken(){return roleTaken;}
 
-    public void moveOptions(Room playerLoc){
-        Room[] adjRooms = playerLoc.getAdjRooms();
-        for(Room room: adjRooms){
-            System.out.println(room.getRoomName());
-        }
+    public Role getRole(){
+        return  playerRole;
     }
+
+    public String getRoleName(){
+        if(playerRole != null){return playerRole.getRoleName();}else{return "No Current Role";}
+    }
+
+    public String getRoleDesc(){
+        if(playerRole != null){return playerRole.getRoleDescription();}else{return "No Current Role";}
+    }
+
+    //public void moveOptions(Room playerLoc){
+    //    Room[] adjRooms = playerLoc.getAdjRooms();
+    //    for(Room room: adjRooms){
+    //        System.out.println(room.getRoomName());
+    //    }
+    //}
 
     public void move(Room goalRoom){
         Room[] adjRooms = playerLoc.getAdjRooms();
-        String goalName = goalRoom.getRoomName();
         boolean found = false;
         for(Room room: adjRooms){
             if(goalRoom.getRoomName().equals(room.getRoomName())){
@@ -72,14 +83,6 @@ public class Player {
             //System.out.println("Could not move to " + goalName);
             //System.out.println("Room must be adjacent to players current room.");
         }
-    }
-
-    public String getRoleName(){
-        if(playerRole != null){return playerRole.getRoleName();}else{return "No Current Role";}
-    }
-
-    public Role getRole(){
-        return  playerRole;
     }
 
     public void takeRole(Role currentRole){
