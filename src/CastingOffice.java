@@ -29,8 +29,9 @@ public class CastingOffice extends Room {
     }
 
     public boolean rankPlayerCredit(int goalRank, Player player){
-        if(player.getWallet().getDollars() >= rankRequireCredit.get(goalRank)){
+        if(player.getWallet().getCredits() >= rankRequireCredit.get(goalRank)){
             player.setPlayerRank(goalRank);
+            player.getWallet().decCredits(rankRequireCredit.get(goalRank));
             return true;
         }
         return false;
@@ -39,6 +40,7 @@ public class CastingOffice extends Room {
     public boolean rankPlayerDollar(int goalRank, Player player){
         if(player.getWallet().getDollars() >= rankRequireDollar.get(goalRank)){
             player.setPlayerRank(goalRank);
+            player.getWallet().decDollars(rankRequireDollar.get(goalRank));
             return true;
         }
         return false;

@@ -160,7 +160,7 @@ public class UIText {
                         SceneRoom sr = (SceneRoom)currentPlayer.getPlayerLoc();
                         int budget = sr.getRoomScene().getBudget();
                         Random ran = new Random();
-                        int dieRole = (ran.nextInt(5)+1);
+                        int dieRole = (ran.nextInt(6)+1);
                         System.out.println("You rolled a "+dieRole);
                         if(budget < (currentPlayer.pracChips + dieRole)){
                             if(currentPlayer.getRole().getOnCardRole()){
