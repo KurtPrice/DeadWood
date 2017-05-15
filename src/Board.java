@@ -16,11 +16,8 @@ public class Board {
     //private String winner;
 
     public static void main(String args[]) {
-        ReadSceneXML sParser = new ReadSceneXML();
-        sceneArray = sParser.read();
-
-        ReadBoardXML bParser = new ReadBoardXML();
-        roomArray = bParser.read();
+        sceneArray = ReadSceneXML.read();
+        roomArray = ReadBoardXML.read();
 
         playerList = startGame(numPlayer);
         for (int i = 0; i < numDays; i++) {
