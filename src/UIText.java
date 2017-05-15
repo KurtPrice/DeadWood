@@ -169,7 +169,7 @@ public class UIText {
                         Random ran = new Random();
                         int dieRole = (ran.nextInt(6)+1);
                         System.out.println("You rolled a "+dieRole);
-                        if(budget < (currentPlayer.pracChips + dieRole)){
+                        if(budget <= (currentPlayer.pracChips + dieRole)){
                             if(currentPlayer.getRole().getOnCardRole()){
                                 sr.tempShotCounters--;
                                 currentPlayer.getWallet().incCredits(2);

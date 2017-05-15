@@ -33,6 +33,7 @@ public class Scene {
         return budget;
     }
 
+    //Needs debugging.
     public void finishScene(SceneRoom room) {
         boolean bonusPay = false;
         ArrayList<Player> pInRoom = room.getPlayersInRoom();
@@ -43,8 +44,6 @@ public class Scene {
                 bonusPay = true;
                 pOnCard.add(p);
             }else{pOffCard.add(p);}
-            p.leaveRole();
-            p.pracChips = 0;
         }
         if (bonusPay) {
             ArrayList<Player> pOrdered = new ArrayList<>();
@@ -82,6 +81,10 @@ public class Scene {
             }
             bonusPaymentOnCard(pOrdered, dieOrdered);
             bonusPaymentOffCard(pOffCard);
+        }
+        for (Player p : pInRoom) {
+            p.leaveRole();
+            p.pracChips = 0;
         }
     }
 

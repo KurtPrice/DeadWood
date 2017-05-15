@@ -105,7 +105,7 @@ public class Board {
         SceneRoom sr = (SceneRoom) roomArray[i];
         sr.tempShotCounters = sr.shotCounters;
         sr.setFinishScene(false);
-        int n = rand.nextInt(39);
+        int n = rand.nextInt(40);
         if (usedScenes.contains(n)) {
             return setScenes(i);
         } else {
