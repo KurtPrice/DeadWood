@@ -51,7 +51,7 @@ public class UIText {
                     System.out.println();
                     break;
                 case "move":
-                    //if (!moveAble) {System.out.println("Already moved.");break;}
+                    if (!moveAble) {System.out.println("Already moved.");break;}
                     if (currentPlayer.getRoleTaken()){System.out.println("Can't move while working a role."); break;}
                     for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
                         if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
