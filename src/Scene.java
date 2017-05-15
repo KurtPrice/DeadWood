@@ -66,7 +66,7 @@ public class Scene {
             }
 
             for (int j = 0; j < budget; j++) {
-                int n = (ran.nextInt(5) + 1);
+                int n = (ran.nextInt(6) + 1);
                 System.out.println("Rolled a " + n + "!");
                 payDice.add(n);
             }

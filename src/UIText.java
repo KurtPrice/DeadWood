@@ -51,7 +51,7 @@ public class UIText {
                     System.out.println();
                     break;
                 case "move":
-                    if (!moveAble) {System.out.println("Already moved.");break;}
+                    //if (!moveAble) {System.out.println("Already moved.");break;}
                     if (currentPlayer.getRoleTaken()){System.out.println("Can't move while working a role."); break;}
                     for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
                         if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
@@ -144,7 +144,7 @@ public class UIText {
                         SceneRoom sr = (SceneRoom)currentPlayer.getPlayerLoc();
                         int budget = sr.getRoomScene().getBudget();
                         Random ran = new Random();
-                        int dieRole = (ran.nextInt(5)+1);
+                        int dieRole = (ran.nextInt(6)+1);
                         System.out.println("You rolled a "+dieRole);
                         if(budget < (currentPlayer.pracChips + dieRole)){
                             if(currentPlayer.getRole().getOnCardRole()){
