@@ -1,5 +1,6 @@
 /**
  * Created by pricek21 on 5/2/17.
+ * Class that provides a blueprint for a role object.
  */
 public class Role {
     private String roleName;
@@ -16,6 +17,11 @@ public class Role {
         roleOccupancy = false;
     }
 
+    /**
+     * Methods: getRoleName, getRoleDescription, getOnCardRole, getRoleRank
+     *
+     * Responsibilities: Methods are responsible for getting and setting of role attributes.
+     */
     public String getRoleName(){
         return roleName;
     }

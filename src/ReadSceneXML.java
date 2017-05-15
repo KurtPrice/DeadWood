@@ -9,11 +9,21 @@ import java.io.File;
 
 /**
  * Created by Tom on 5/14/2017.
- * Scene XML parser.
+ * Class that parses the Scene XML file.
  */
 
 public class ReadSceneXML {
 
+    /**
+     * Method: read
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for parsing the scene XML file into usable/accessible
+     * Java objects.
+     *
+     * Return(s): Scene array that contains all of the scenes to be used in the game.
+     */
     public static Scene[] read() {
         try {
             Scene[] sceneArray = new Scene[40];

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Created by pricek21 on 5/2/17.
+ * Class that provides a blueprint for a Room object.
  */
 public class Room {
     private String roomName;
@@ -15,6 +16,11 @@ public class Room {
         //numberPlayers = availableCount;
     }
 
+    /**
+     * Methods: getRoomName, getAdjRooms, getSceneRoom, getPlayersInRoom, setSceneRoom, addPlayer, removePlayer, addAdjRoom
+     *
+     * Responsibilities: Methods are responsible for getting and setting of Room objects attributes.
+     */
     public String getRoomName(){
         return roomName;
     }

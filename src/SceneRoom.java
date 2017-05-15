@@ -1,5 +1,6 @@
 /**
  * Created by pricek21 on 5/3/17.
+ * Class that is a blueprint for creating SceneRoom objects.
  */
 public class SceneRoom extends Room {
     //private boolean revealScene;
@@ -15,6 +16,11 @@ public class SceneRoom extends Room {
         shotCounters = shots;
     }
 
+    /**
+     * Methods: getRoleList, setRoomScene, getRoomScene, getSceneFinished, setSceneFinished
+     *
+     * Responsibilities: Methods are responsible for getting and setting of SceneRoom object attributes.
+     */
     public Role[] getRoleList(){
         return roleList;
     }
@@ -34,11 +40,7 @@ public class SceneRoom extends Room {
     public void setFinishScene(boolean b){
         sceneFinished = b;
     }
-    /**
-     * I don't believe this is necessary for text UI.
-     */
-    /*
-    private void revealScene(){
-    }
-    */
+
+    //private void revealScene(){
+    //}
 }

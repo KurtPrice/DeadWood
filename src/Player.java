@@ -1,5 +1,6 @@
 /**
  * Created by pricek21 on 5/2/17.
+ * Class that represents each instance of a player in our game.
  */
 public class Player {
 
@@ -20,41 +21,132 @@ public class Player {
         wallet = money;
     }
 
+    /**
+     * Method: getPlayerName
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for returning player name.
+     *
+     * Return(s): string
+     */
     public String getPlayerName(){
         return playerName;
     }
 
+    /**
+     * Method: getPlayerRank
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for returning player rank.
+     *
+     * Return(s): int
+     */
     public int getPlayerRank(){
         return playerRank;
     }
 
+    /**
+     * Method: setPlayerRank
+     *
+     * Parameter(s): Method takes an int which will be the players rank.
+     *
+     * Responsibilities: Method is responsible for setting player rank.
+     *
+     * Return(s): nothing
+     */
     public void setPlayerRank(int rank){
         playerRank = rank;
     }
 
+    /**
+     * Method: getPlayerLoc
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for returning player's room location.
+     *
+     * Return(s): Room
+     */
     public Room getPlayerLoc()
     {
         return playerLoc;
     }
 
+    /**
+     * Method: setPlayerLoc
+     *
+     * Parameter(s): Method takes a Room which will be the players new location.
+     *
+     * Responsibilities: Method is responsible for setting player location.
+     *
+     * Return(s): nothing
+     */
     public void setPlayerLoc(Room room){
         playerLoc = room;
     }
 
+    /**
+     * Method: getWallet
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for getting player wallet.
+     *
+     * Return(s): PlayerCurrency
+     */
     public PlayerCurrency getWallet(){
         return wallet;
     }
 
+    /**
+     * Method: getRoleTaken
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for getting the boolean responsible for
+     * telling if a player currently has a role.
+     *
+     * Return(s): boolean
+     */
     public boolean getRoleTaken(){return roleTaken;}
 
+    /**
+     * Method: getRole
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for getting player role.
+     *
+     * Return(s): Role
+     */
     public Role getRole(){
         return  playerRole;
     }
 
+    /**
+     * Method: getRoleName
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for getting role name if possible.
+     *
+     * Return(s): string
+     */
     public String getRoleName(){
         if(playerRole != null){return playerRole.getRoleName();}else{return "No Current Role";}
     }
 
+    /**
+     * Method: getRoleDesc
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for getting player role description if possible.
+     *
+     * Return(s): string
+     */
     public String getRoleDesc(){
         if(playerRole != null){return playerRole.getRoleDescription();}else{return "No Current Role";}
     }
@@ -66,6 +158,16 @@ public class Player {
     //    }
     //}
 
+    /**
+     * Method: move
+     *
+     * Parameter(s): Method takes a Room which is the desired room to move to.
+     *
+     * Responsibilities: Method is responsible for moving the player to the desired room if
+     * and only if the room is accessible from the players current location.
+     *
+     * Return(s): nothing
+     */
     public void move(Room goalRoom){
         Room[] adjRooms = playerLoc.getAdjRooms();
         boolean found = false;
@@ -85,11 +187,30 @@ public class Player {
         }
     }
 
+    /**
+     * Method: takeRole
+     *
+     * Parameter(s): Method takes a Role which will be the players new role.
+     *
+     * Responsibilities: Method is responsible for setting players role and role taken boolean.
+     *
+     * Return(s): nothing
+     */
     public void takeRole(Role currentRole){
         roleTaken = true;
         playerRole = currentRole;
     }
 
+    /**
+     * Method: leaveRole
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for removing the player from their
+     * current role.
+     *
+     * Return(s): nothing
+     */
     public void leaveRole()
     {
         roleTaken = false;

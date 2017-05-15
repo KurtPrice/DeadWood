@@ -2,6 +2,7 @@ import java.util.*;
 
 /**
  * Created by pricek21 on 5/2/17.
+ * Class provides a blueprint for Scene objects.
  */
 public class Scene {
 
@@ -17,6 +18,11 @@ public class Scene {
         budget = money;
     }
 
+    /**
+     * Methods: getSceneName, getSceneDescription, getRoleList, getBudget
+     *
+     * Responsibilities: Methods are responsible for getting and setting of Scene object attributes.
+     */
     public String getSceneName(){
         return sceneName;
     }
@@ -33,7 +39,17 @@ public class Scene {
         return budget;
     }
 
-    //Needs debugging.
+
+    /**
+     * Method: finishScene
+     *
+     * Parameter(s): Method takes a SceneRoom objects being the scene room of the respective scene oject.
+     *
+     * Responsibilities: Method is responsible for prepping data in order for bonus payment and deciding if bonus
+     * payment is in order.
+     *
+     * Return(s): nothing
+     */
     public void finishScene(SceneRoom room) {
         boolean bonusPay = false;
         ArrayList<Player> pInRoom = room.getPlayersInRoom();
@@ -88,6 +104,17 @@ public class Scene {
         }
     }
 
+    /**
+     * Methods: bonusPaymentOnCard, bonusPaymentOffCard
+     *
+     * Parameter(s): Both methods take a player array list that represents the players that need payment. Only the on card
+     * method also takes an array list of "money" dice.
+     *
+     * Responsibilities: Methods are responsible for paying each player with bonus payments
+     * for on and off card roles respectively.
+     *
+     * Return(s): nothing
+     */
     private void bonusPaymentOnCard(ArrayList<Player> pList, ArrayList<Integer> dList){
         for(int i=0; i<dList.size();i++){
            pList.get((i%pList.size())).getWallet().incDollars(dList.get(i));

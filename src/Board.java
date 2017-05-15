@@ -3,6 +3,7 @@ import java.util.Random;
 
 /**
  * Created by pricek21 on 5/2/17.
+ * Class is the main driver of our game. Governs over the general flow and fetches data.
  */
 public class Board {
     private static UIText UI = new UIText();
@@ -15,6 +16,16 @@ public class Board {
     private static int numScenes;
     //private String winner;
 
+    /**
+     * Method: main
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for general flow of game and
+     * fetching required data from XML files.
+     *
+     * Return(s): nothing
+     */
     public static void main(String args[]) {
         sceneArray = ReadSceneXML.read();
         roomArray = ReadBoardXML.read();
@@ -28,7 +39,13 @@ public class Board {
     }
 
     /**
-     * Method that chooses initial conditions based off of number of players.
+     * Method: startGame
+     *
+     * Parameter(s): Method that takes an int that is the number of players participating.
+     *
+     * Responsibilities: Method is responsible for choosing the initial conditions based off of number of players.
+     *
+     * Return(s): Instantiated player array with stats based off initial conditions.
      */
     private static Player[] startGame(int playerCount) {
         int startRank = 1;
@@ -55,13 +72,20 @@ public class Board {
             default:
                 break;
         }
-        return CreatePlayers(playerCount, startRank, startCredit);
+        return createPlayers(playerCount, startRank, startCredit);
     }
 
     /**
-     * Method that creates player objects with initial conditions as passed.
+     * Method: createPlayers
+     *
+     * Parameter(s): Method that takes an int that is the number of players participating, an int being
+     * the starting rank of each player, and an int for the initial credits for each player.
+     *
+     * Responsibilities: Method is responsible for creating player objects with initial conditions as passed.
+     *
+     * Return(s): Instantiated player array with stats based off initial conditions.
      */
-    private static Player[] CreatePlayers(int playerCount, int startRank, int startCredit) {
+    private static Player[] createPlayers(int playerCount, int startRank, int startCredit) {
         Player[] pList = new Player[playerCount];
 
         for (int i = 0; i < playerCount; i++) {
@@ -77,6 +101,16 @@ public class Board {
     //    numDays = x;
     //}
 
+    /**
+     * Method: startDay
+     *
+     * Parameter(s): Method that takes a player array that represents all the players in the game.
+     *
+     * Responsibilities: Method is responsible for placing the players back into te trailer, and calling for all
+     * of the scenes to be set with the scene rooms.
+     *
+     * Return(s): nothing
+     */
     private static void startDay(Player[] playerList) {
 
         for (int i = 0; i < 10; i++) {
@@ -85,13 +119,11 @@ public class Board {
         for (Player p : playerList) {
             p.setPlayerLoc(roomArray[10]);
         }
-        //Changed for debug.
         while (numScenes != 1) {
             for (Player p : playerList) {
                 if (UIText.turn(p, roomArray)) {
                     numScenes--;
                 }
-                //Changed for debug.
                 if (numScenes == 1) {
                     break;
                 }
@@ -99,6 +131,16 @@ public class Board {
         }
     }
 
+    /**
+     * Method: setScenes
+     *
+     * Parameter(s): Method that takes an int that represents the room in which a scene is being placed.
+     *
+     * Responsibilities: Method is responsible for placing a randomly generated scene into a scene room
+     * that has not been used yet.
+     *
+     * Return(s): Returns an int in order to be recursive.
+     */
     private static int setScenes(int i) {
         numScenes = 10;
         Random rand = new Random();
@@ -115,6 +157,16 @@ public class Board {
         return 0;
     }
 
+    /**
+     * Method: endDay
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for making sure each player does not have a role
+     * when the day ends and calls for the UI to display the end of the day.
+     *
+     * Return(s): nothing
+     */
     private static void endDay() {
         UI.endDayPrint();
         for (Player p : playerList) {
@@ -122,6 +174,16 @@ public class Board {
         }
     }
 
+    /**
+     * Method: endGame
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for calculating all player scores, choosing
+     * a winner and calling UI to display results accordingly.
+     *
+     * Return(s): nothing
+     */
     private static void endGame() {
         String winner = "there is a tie!";
         int highScore = 0;

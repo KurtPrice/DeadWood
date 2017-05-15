@@ -9,10 +9,20 @@ import java.io.File;
 
 /**
  * Created by Tom on 5/14/2017.
- * Board XML parser.
+ * Class that parses the Board XML file.
  */
 public class ReadBoardXML {
 
+    /**
+     * Method: read
+     *
+     * Parameter(s): none
+     *
+     * Responsibilities: Method is responsible for parsing the board XML file into usable/accessible
+     * Java objects.
+     *
+     * Return(s): Room array containing all of the room objects in the game.
+     */
     public static Room[] read() {
         try {
             Room[] roomArray = new Room[12];
