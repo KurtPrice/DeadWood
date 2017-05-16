@@ -138,6 +138,7 @@ public class UIText {
                             currentPlayer.takeRole(rs);
                             System.out.println("Role Taken");
                             taken = true;
+                            actAble = false;
                         }
                     }
                     for (Role rr : availRolesRoom) {
@@ -145,6 +146,7 @@ public class UIText {
                             currentPlayer.takeRole(rr);
                             System.out.println("Role Taken");
                             taken = true;
+                            actAble = false;
                         }
                     }
                     if (!taken) {
@@ -211,7 +213,7 @@ public class UIText {
                     break;
                 case "act":
                     if (!actAble) {
-                        System.out.println("You have already acted or rehearsed.");
+                        System.out.println("You have already acted or rehearsed or just taken a role.");
                         break;
                     }
                     if (currentPlayer.getRoleTaken()) {
