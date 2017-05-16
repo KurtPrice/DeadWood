@@ -9,7 +9,7 @@ import java.io.File;
 
 /**
  * Created by Tom on 5/14/2017.
- * Class that parses the Board XML file.
+ * Class that parses the Deadwood XML file.
  */
 public class ReadBoardXML {
 

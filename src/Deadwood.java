@@ -5,7 +5,7 @@ import java.util.Random;
  * Created by pricek21 on 5/2/17.
  * Class is the main driver of our game. Governs over the general flow and fetches data.
  */
-public class Board {
+public class Deadwood {
     private static UIText UI = new UIText();
     private static int numPlayer = UI.numberPlayers();
     private static Player[] playerList;

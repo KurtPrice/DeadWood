@@ -11,11 +11,11 @@ public class UIText {
      * Method: turn
      * <p>
      * Parameter(s): Method that takes a Player object being the player who's turn it is and takes a
-     * Room array that has been instantiated in the Board class being every room on the board.
+     * Room array that has been instantiated in the Deadwood class being every room on the board.
      * <p>
      * Responsibilities: Method is responsible for the contents of a player turn.
      * <p>
-     * Return(s): Returns a boolean which will notify Board
+     * Return(s): Returns a boolean which will notify Deadwood
      * class to decrement number of scene if true.
      */
     public static boolean turn(Player currentPlayer, Room[] roomArray) {
