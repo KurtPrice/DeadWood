@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class Deadwood {
     private static UIText UI = new UIText();
-    private static int numPlayer = UI.numberPlayers();
+    private static int numPlayer = 0;
     private static Player[] playerList;
     private static ArrayList<Integer> usedScenes = new ArrayList<>();
     private static Scene[] sceneArray;
@@ -27,6 +27,13 @@ public class Deadwood {
      * Return(s): nothing
      */
     public static void main(String args[]) {
+        if(args.length != 0) {
+            try{
+                numPlayer = Integer.valueOf(args[0]);
+            } catch(NumberFormatException e){
+                numPlayer = UI.numberPlayers();
+            }
+        }
         sceneArray = ReadSceneXML.read();
         roomArray = ReadBoardXML.read();
 
