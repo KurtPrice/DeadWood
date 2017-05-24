@@ -4,8 +4,7 @@
 
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
+import javax.swing.*;
 import java.awt.Color;
 //import model.GUI;
 
@@ -18,19 +17,14 @@ public class GUIView
     private JLabel cardBack;
     private JLabel scene;
     private JLabel shot;
-    //private JLabel hOne;
+    private JLabel[] disp;
 
-    //private JLabel mTen;
-    //private JLabel mOne;
-
-    //private JLabel sTen;
-    //private JLabel sOne;
-
+    private JButton moveButton;
 
     public GUIView () {
         Resources r = Resources.getInstance();
 
-        setSize(1200,900);
+        setSize(1400,900);
         setDoubleBuffered(true);
 
         background = new JLabel();
@@ -38,13 +32,10 @@ public class GUIView
         background.setBounds(0,0,1200,900);
         background.setIcon(r.getBG());
 
-       // for(int i = 0; i<10;)
-        //cardBack = new JLabel();
-        //add(cardBack, new Integer(1));
-       // cardBack.setBounds(0,0,100,167);
-
+        moveButton = new JButton("Move");
+        add(moveButton);
+        moveButton.setBounds(1205,200,200,100);
         setVisible(true);
-        setFocusable(true);
     }
 
     public void setScene(int x,int y) {
@@ -92,5 +83,43 @@ public class GUIView
 
         setVisible(true);
         setFocusable(true);
+    }
+
+    public void updatePlayerDisp(String name, String dollars, String credits, String part, String partD,String partR){
+        disp = new JLabel[6];
+
+        disp[0] = new JLabel(name,0);
+        disp[0].setFont(disp[0].getFont().deriveFont((float)20));
+        add(disp[0],new Integer(3));
+        disp[0].setBounds(1200,0,200,50);
+
+        disp[1] = new JLabel(dollars,0);
+        disp[1].setFont(disp[1].getFont().deriveFont((float)20));
+        add(disp[1],new Integer(4));
+        disp[1].setBounds(1200,25,200,50);
+
+        disp[2] = new JLabel(credits,0);
+        disp[2].setFont(disp[2].getFont().deriveFont((float)20));
+        add(disp[2],new Integer(5));
+        disp[2].setBounds(1200,50,200,50);
+
+        String formattedPart=String.format("<html><div style=\"width:%dpx;\">%s</div><html>", 180, part);
+        disp[3] = new JLabel(formattedPart);
+        disp[3].setFont(disp[3].getFont().deriveFont((float)15));
+        add(disp[3],new Integer(6));
+        disp[3].setBounds(1200,85,200,50);
+
+        String formattedPartD=String.format("<html><div style=\"width:%dpx;\">%s</div><html>", 180, partD);
+        disp[4] = new JLabel(formattedPartD);
+        disp[4].setFont(disp[3].getFont().deriveFont((float)15));
+        add(disp[4],new Integer(7));
+        disp[4].setBounds(1200,120,200,50);
+
+        String formattedPartR=String.format("<html><div style=\"width:%dpx;\">%s</div><html>", 180, partR);
+        disp[5] = new JLabel(formattedPartR);
+        disp[5].setFont(disp[3].getFont().deriveFont((float)15));
+        add(disp[5],new Integer(8));
+        disp[5].setBounds(1200,155,200,50);
+        setVisible(true);
     }
 }
