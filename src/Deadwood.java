@@ -1,3 +1,4 @@
+import javax.imageio.IIOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,6 +8,7 @@ import java.util.Random;
  */
 public class Deadwood {
     private static UIText UI = new UIText();
+    private static GUI UI2;
     private static int numPlayer = 0;
     private static Player[] playerList;
     private static ArrayList<Integer> usedScenes = new ArrayList<>();
@@ -27,6 +29,12 @@ public class Deadwood {
      * Return(s): nothing
      */
     public static void main(String args[]) {
+        try{
+            UI2 = new GUI();
+        } catch (java.io.IOException e) {
+          System.out.println("GUI Exception");
+        }
+
         if(args.length != 0) {
             try{
                 numPlayer = Integer.valueOf(args[0]);
@@ -128,7 +136,7 @@ public class Deadwood {
         }
         while (numScenes != 1) {
             for (Player p : playerList) {
-                if (UIText.turn(p, roomArray)) {
+                if (UI2.turn(p, roomArray)) {
                     numScenes--;
                 }
                 if (numScenes == 1) {
