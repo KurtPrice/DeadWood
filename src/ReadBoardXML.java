@@ -86,6 +86,33 @@ public class ReadBoardXML {
                             r.addAdjRoom(r2);
                         }
                     }
+
+                    Node areaNode = eElementRoom.getElementsByTagName("area").item(0);
+                    if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElementArea = (Element) areaNode;
+                        int x = Integer.parseInt(eElementArea.getAttribute("x"));
+                        int y = Integer.parseInt(eElementArea.getAttribute("y"));
+                        int[] array = new int[2];
+                        array[0]=x;
+                        array[1]=y;
+                        r.setArea(array);
+                    }
+
+                    for (int i = 0; i < (eElementRoom.getElementsByTagName("take").getLength()); i++) {
+                        Node takeNode = eElementRoom.getElementsByTagName("take").item(i);
+                        Node shotAreaNode = takeNode.getFirstChild();
+                        if (nNodeRole.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElementTake = (Element) shotAreaNode;
+                            int x = Integer.parseInt(eElementTake.getAttribute("x"));
+                            int y = Integer.parseInt(eElementTake.getAttribute("y"));
+                            int[] array = new int[2];
+                            array[0]= x;
+                            array[1]= y;
+                            r.addShotArea(array);
+                        }
+                    }
+
+
                     roomArray[temp] = r;
                 }
                 temp2++;

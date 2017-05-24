@@ -10,6 +10,7 @@ public class Scene {
     private String sceneDescription;
     private Role[] roleList;
     private int budget;
+    private String sceneImage;
 
     public Scene(String name, String description, Role[] list, int money){
         sceneName = name;
@@ -39,6 +40,13 @@ public class Scene {
         return budget;
     }
 
+    public String getSceneImg(){
+        return sceneImage;
+    }
+
+    public void setSceneImage(String img){
+        sceneImage = img;
+    }
 
     /**
      * Method: finishScene

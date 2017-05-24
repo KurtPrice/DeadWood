@@ -10,7 +10,7 @@ import java.awt.Dimension;
 public class GUI {
 
     private JFrame mainFrame;
-    private GUIView gView;
+    private static GUIView gView;
 
     public GUI () throws IOException {
 
@@ -42,4 +42,15 @@ public class GUI {
         return false;
     }
 
+    public static void setScene(int[] area){
+        gView.setScene(area[0],area[1]);
+    }
+
+    public static void revealScene(int[] area, String sceneImg){
+        gView.revealScene(area[0],area[1],sceneImg);
+    }
+
+    public static void setShot(int[] area){
+        gView.setShotCounter(area[0],area[1]);
+    }
 }

@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 
 public class Resources {
 
-    private ImageIcon[] scenes;
+    private ImageIcon scene;
     private ImageIcon[] dice;
     private ImageIcon cardBack;
     private ImageIcon shotCounter;
@@ -16,19 +16,11 @@ public class Resources {
     static Resources instance;
 
     private Resources() {
-        scenes = new ImageIcon[40];
         dice = new ImageIcon[48];
 
         try {
             String path;
             int num;
-            for (int i = 0; i < 40; ++i) {
-                num = i+1;
-                path = "resources/scenes/" + num + ".png";
-                scenes[i] = new ImageIcon(
-
-                        ImageIO.read(new File(path)));
-            }
             int index =0;
             for (int i = 0; i < 6; ++i) {
                 num = i+1;
@@ -107,9 +99,19 @@ public class Resources {
         }
     }
 
-    public ImageIcon getScene(int i)
+    public ImageIcon getScene(String name)
     {
-        return scenes[i];
+        try{
+        String path = "resources/scenes/" + name;
+        scene = new ImageIcon(
+
+                ImageIO.read(new File(path)));
+
+        }catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return scene;
     }
 
     public ImageIcon getDice(int i)

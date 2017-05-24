@@ -48,9 +48,9 @@ public class ReadSceneXML {
                     Element eElementScene = (Element) nNodeScene;
 
                     String sName = eElementScene.getAttribute("name");
+                    String sImage = eElementScene.getAttribute("img");
                     String sBudget = eElementScene.getAttribute("budget");
                     String sDescription = eElementScene.getElementsByTagName("scene").item(0).getTextContent();
-
                     Role[] sRoles = new Role[4];
                     int roleIndex = 0;
 
@@ -77,6 +77,7 @@ public class ReadSceneXML {
                     Role[] shrunkRoles = new Role[roleIndex];
                     System.arraycopy(sRoles,0,shrunkRoles,0,roleIndex);
                     Scene s = new Scene(sName, sDescription, shrunkRoles, Integer.parseInt(sBudget));
+                    s.setSceneImage(sImage);
                     sceneArray[temp] = s;
                 }
             }

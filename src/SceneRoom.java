@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by pricek21 on 5/3/17.
  * Class that is a blueprint for creating SceneRoom objects.
@@ -6,7 +8,9 @@ public class SceneRoom extends Room {
     //private boolean revealScene;
     private Role[] roleList;
     private Scene roomScene;
+    private int[] area;
     public int shotCounters;
+    private ArrayList<int[]> shotArea = new ArrayList<>();
     public int tempShotCounters;
     private boolean sceneFinished = false;
 
@@ -39,6 +43,24 @@ public class SceneRoom extends Room {
 
     public void setFinishScene(boolean b){
         sceneFinished = b;
+    }
+
+    public void setArea(int[] position){area = position;}
+
+    public int[] getArea(){
+        return area;
+    }
+
+    public void addShotArea(int [] position){
+        shotArea.add(position);
+    }
+
+    public int[] getShotArea(int i){
+        return shotArea.get(i);
+    }
+
+    public int getShotAreaSixe(){
+        return  shotArea.size();
     }
 
     //private void revealScene(){

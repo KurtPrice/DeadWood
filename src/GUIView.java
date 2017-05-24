@@ -15,8 +15,9 @@ public class GUIView
         //implements GUI.Listener {
 
     private JLabel background;
-
-    //private JLabel hTen;
+    private JLabel cardBack;
+    private JLabel scene;
+    private JLabel shot;
     //private JLabel hOne;
 
     //private JLabel mTen;
@@ -37,17 +38,25 @@ public class GUIView
         background.setBounds(0,0,1200,900);
         background.setIcon(r.getBG());
 
-       // hTen = new JLabel();
-        //add(hTen, new Integer(1));
-        //hTen.setBounds(0,0,100,167);
+       // for(int i = 0; i<10;)
+        //cardBack = new JLabel();
+        //add(cardBack, new Integer(1));
+       // cardBack.setBounds(0,0,100,167);
 
         setVisible(true);
         setFocusable(true);
     }
 
-    public void changed() {
+    public void setScene(int x,int y) {
         Resources r = Resources.getInstance();
 
+        cardBack = new JLabel();
+        add(cardBack, new Integer(1));
+        cardBack.setBounds(x,y,205,115);
+        cardBack.setIcon(r.getCB());
+
+        setVisible(true);
+        setFocusable(true);
        // int h = c.getHours();
        // hTen.setIcon(r.getIcon(h/10));
         //hOne.setIcon(r.getIcon(h%10));
@@ -62,4 +71,26 @@ public class GUIView
 
     }
 
+    public void setShotCounter(int x, int y){
+        Resources r = Resources.getInstance();
+
+        shot = new JLabel();
+        add(shot, new Integer(1));
+        shot.setBounds(x,y,47,47);
+        shot.setIcon(r.getShotCounter());
+
+        setVisible(true);
+        setFocusable(true);
+    }
+    public void revealScene(int x, int y, String sceneImg){
+        Resources r = Resources.getInstance();
+
+        scene = new JLabel();
+        add(scene, new Integer(2));
+        scene.setBounds(x,y,205,115);
+        scene.setIcon(r.getScene(sceneImg));
+
+        setVisible(true);
+        setFocusable(true);
+    }
 }

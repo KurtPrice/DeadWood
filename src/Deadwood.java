@@ -168,6 +168,10 @@ public class Deadwood {
         } else {
             sr.setRoomScene(sceneArray[n]);
             usedScenes.add(n);
+            GUI.revealScene(sr.getArea(), sr.getRoomScene().getSceneImg());
+            for(int j=0; j<sr.getShotAreaSixe(); j++){
+                GUI.setShot(sr.getShotArea(j));
+            }
         }
         return 0;
     }
