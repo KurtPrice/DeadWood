@@ -17,9 +17,15 @@ public class GUIView
     private JLabel cardBack;
     private JLabel scene;
     private JLabel shot;
+    private JLabel die;
     private JLabel[] disp;
 
     private JButton moveButton;
+    private JButton workButton;
+    private JButton upgradeButton;
+    private JButton rehearseButton;
+    private JButton actButton;
+    private JButton endButton;
 
     public GUIView () {
         Resources r = Resources.getInstance();
@@ -32,10 +38,47 @@ public class GUIView
         background.setBounds(0,0,1200,900);
         background.setIcon(r.getBG());
 
+        float[] hsbVal = new float[3];
+        hsbVal = Color.RGBtoHSB(177,114,70,hsbVal);
+
         moveButton = new JButton("Move");
+        moveButton.setFont(moveButton.getFont().deriveFont((float)30));
         add(moveButton);
         moveButton.setBounds(1205,200,200,100);
+        moveButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+
+        workButton = new JButton("Work");
+        workButton.setFont(workButton.getFont().deriveFont((float)30));
+        add(workButton);
+        workButton.setBounds(1205,300,200,100);
+        workButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+
+        upgradeButton = new JButton("Upgrade");
+        upgradeButton.setFont(upgradeButton.getFont().deriveFont((float)30));
+        add(upgradeButton);
+        upgradeButton.setBounds(1205,400,200,100);
+        upgradeButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+
+        rehearseButton = new JButton("Rehearse");
+        rehearseButton.setFont(rehearseButton.getFont().deriveFont((float)30));
+        add(rehearseButton);
+        rehearseButton.setBounds(1205,500,200,100);
+        rehearseButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+
+        actButton = new JButton("Act");
+        actButton.setFont(actButton.getFont().deriveFont((float)30));
+        add(actButton);
+        actButton.setBounds(1205,600,200,100);
+        actButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+
+        endButton = new JButton("End");
+        endButton.setFont(endButton.getFont().deriveFont((float)30));
+        add(endButton);
+        endButton.setBounds(1205,700,200,100);
+        endButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
         setVisible(true);
+
+
     }
 
     public void setScene(int x,int y) {
@@ -73,6 +116,17 @@ public class GUIView
         setVisible(true);
         setFocusable(true);
     }
+
+    public void setPlayers(Player[] playerList){
+        Resources r = Resources.getInstance();
+        for(int i=0; i<playerList.length; i++){
+            int playerDie = ((6*i)+(playerList[i].getPlayerRank()-1));
+            die = new JLabel();
+           add(die, new Integer(i));
+           die.setBounds(1050,220+(50*i),40,40);
+           die.setIcon(r.getDice(playerDie));
+        }
+    }
     public void revealScene(int x, int y, String sceneImg){
         Resources r = Resources.getInstance();
 
@@ -85,7 +139,7 @@ public class GUIView
         setFocusable(true);
     }
 
-    public void updatePlayerDisp(String name, String dollars, String credits, String part, String partD,String partR){
+    public void updatePlayerDisp(String name, String dollars, String credits, String part, String partD){
         disp = new JLabel[6];
 
         disp[0] = new JLabel(name,0);
@@ -114,12 +168,6 @@ public class GUIView
         disp[4].setFont(disp[3].getFont().deriveFont((float)15));
         add(disp[4],new Integer(7));
         disp[4].setBounds(1200,120,200,50);
-
-        String formattedPartR=String.format("<html><div style=\"width:%dpx;\">%s</div><html>", 180, partR);
-        disp[5] = new JLabel(formattedPartR);
-        disp[5].setFont(disp[3].getFont().deriveFont((float)15));
-        add(disp[5],new Integer(8));
-        disp[5].setBounds(1200,155,200,50);
         setVisible(true);
     }
 }

@@ -45,8 +45,7 @@ public class GUI {
                 "$" + currentPlayer.getWallet().getDollars(),
                 currentPlayer.getWallet().getCredits() + "cd",
                 "Current Part: " + currentPlayer.getRoleName(),
-                "Part: " + currentPlayer.getRoleDesc(),
-                "Rank: " + currentPlayer.getPlayerRank());
+                "Part: " + currentPlayer.getRoleDesc());
         boolean end = false;
         boolean moveAble = true;
         boolean actAble = true;
@@ -290,4 +289,9 @@ public class GUI {
     public static void setShot(int[] area){
         gView.setShotCounter(area[0],area[1]);
     }
+
+    public static void setPlayers(Player[] pArray){
+        gView.setPlayers(pArray);
+    }
+
 }
