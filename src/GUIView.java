@@ -2,6 +2,10 @@
  * Created by Tom on 5/24/2017.
  */
 
+import javafx.scene.control.TextInputDialog;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
@@ -46,6 +50,16 @@ public class GUIView
         add(moveButton);
         moveButton.setBounds(1205,200,200,100);
         moveButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+        moveButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Object[] rooms ={"room1", "room2", "etc."};
+                String var = (String)JOptionPane.showInputDialog(new JFrame(), "Select a room", "Select a Room",
+                        JOptionPane.PLAIN_MESSAGE, null,
+                        rooms, "Move");
+            }
+        });
 
         workButton = new JButton("Work");
         workButton.setFont(workButton.getFont().deriveFont((float)30));
@@ -122,10 +136,12 @@ public class GUIView
         for(int i=0; i<playerList.length; i++){
             int playerDie = ((6*i)+(playerList[i].getPlayerRank()-1));
             die = new JLabel();
-           add(die, new Integer(i));
-           die.setBounds(1050,220+(50*i),40,40);
+           add(die, new Integer(i+1));
+           die.setBounds(1050,270+(50*i),40,40);
            die.setIcon(r.getDice(playerDie));
+           setVisible(true );
         }
+        repaint();
     }
     public void revealScene(int x, int y, String sceneImg){
         Resources r = Resources.getInstance();

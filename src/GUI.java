@@ -80,32 +80,6 @@ public class GUI {
             String[] entrySplit = entry.split(" ", 2);
 
             switch (entrySplit[0]) {
-                case "where":
-                    System.out.println("Current player's room: " + currentPlayer.getPlayerLoc().getRoomName()
-                            + ", Active scene: " + currentSceneN
-                            + ", Description: " + currentSceneD
-                            + ", Budget: " + currentSceneBudget);
-                    if (availRolesScene.length != 0 || availRolesRoom.length != 0) {
-                        System.out.print("Available Roles: \n");
-                        System.out.println("On-Card Roles: ");
-                    }
-
-                    for (Role rs : availRolesScene) {
-                        System.out.print("(" + rs.getRoleName() + ", Rank: " + rs.getRoleRank() + ") ");
-                    }
-                    if (availRolesRoom.length > 0) {
-                        System.out.println("\nOff-Card Roles: ");
-                    }
-                    for (Role rr : availRolesRoom) {
-                        System.out.print("(" + rr.getRoleName() + ", Rank: " + rr.getRoleRank() + ") ");
-                    }
-                    System.out.println();
-                    Room[] adjRooms = currentPlayer.getPlayerLoc().getAdjRooms();
-                    System.out.println("Available Rooms:\n");
-                    for (Room r : adjRooms) {
-                        System.out.println(r.getRoomName());
-                    }
-                    break;
                 case "move":
                     if (!moveAble) {
                         System.out.println("Already moved.");
