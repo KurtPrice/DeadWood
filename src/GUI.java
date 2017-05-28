@@ -14,6 +14,10 @@ public class GUI {
     private JFrame mainFrame;
     private static GUIView gView;
 
+    public static Player cPlayer;
+    public static Room[] rArray;
+    private static boolean  moveAble;
+    private static boolean end;
     public GUI () throws IOException {
 
         //clock = new Clock();
@@ -41,13 +45,15 @@ public class GUI {
     }
 
     public static boolean turn(Player currentPlayer, Room[] roomArray) {
+        cPlayer = currentPlayer;
+        rArray = roomArray;
         gView.updatePlayerDisp(currentPlayer.getPlayerName() + "'s turn",
                 "$" + currentPlayer.getWallet().getDollars(),
                 currentPlayer.getWallet().getCredits() + "cd",
                 "Current Part: " + currentPlayer.getRoleName(),
                 "Part: " + currentPlayer.getRoleDesc());
-        boolean end = false;
-        boolean moveAble = true;
+        end = false;
+        moveAble = true;
         boolean actAble = true;
         boolean finishScene = false;
         while (!end) {
@@ -80,38 +86,6 @@ public class GUI {
             String[] entrySplit = entry.split(" ", 2);
 
             switch (entrySplit[0]) {
-                case "move":
-                    if (!moveAble) {
-                        System.out.println("Already moved.");
-                        break;
-                    }
-                    if (currentPlayer.getRoleTaken()) {
-                        System.out.println("Can't move while working a role.");
-                        break;
-                    }
-                    if (entrySplit.length == 1) {
-                        System.out.println("Please specify what room you want to move to.");
-                        break;
-                    }
-                    for (int i = 0; i < (currentPlayer.getPlayerLoc().getAdjRooms().length); i++) {
-                        if (entrySplit[1].equals((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName())) {
-                            for (Room r : roomArray) {
-                                if ((currentPlayer.getPlayerLoc().getAdjRooms())[i].getRoomName().equals(r.getRoomName())) {
-                                    currentPlayer.move(r);
-                                    currentPlayer.getPlayerLoc().removePlayer(currentPlayer);
-                                    r.addPlayer(currentPlayer);
-                                    break;
-                                }
-                            }
-                            System.out.println("Move successful.");
-                            moveAble = false;
-                            break;
-                        }
-                    }
-                    if (moveAble) {
-                        System.out.println("Not a valid room please try again.");
-                    }
-                    break;
                 case "work":
                     if (availRolesScene.length == 0) {
                         System.out.println("No Available Scene.");
@@ -252,6 +226,15 @@ public class GUI {
         return finishScene;
     }
 
+    public static boolean getMoveAble(){
+        return moveAble;
+    }
+    public static void setMoveAble(boolean b){
+        moveAble = b;
+    }
+    public static void endTurn(){
+        end =true;
+    }
     public static void setScene(int[] area){
         gView.setScene(area[0],area[1]);
     }

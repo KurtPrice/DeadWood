@@ -29,12 +29,6 @@ public class Deadwood {
      * Return(s): nothing
      */
     public static void main(String args[]) {
-        try{
-            UI2 = new GUI();
-        } catch (java.io.IOException e) {
-          System.out.println("GUI Exception");
-        }
-
         if(args.length != 0) {
             try{
                 numPlayer = Integer.valueOf(args[0]);
@@ -44,7 +38,11 @@ public class Deadwood {
         }
         sceneArray = ReadSceneXML.read();
         roomArray = ReadBoardXML.read();
-
+        try{
+            UI2 = new GUI();
+        } catch (java.io.IOException e) {
+            System.out.println("GUI Exception");
+        }
         playerList = startGame(numPlayer);
         for (int i = 0; i < numDays; i++) {
             startDay(playerList);

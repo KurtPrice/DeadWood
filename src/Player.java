@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * Created by pricek21 on 5/2/17.
  * Class that represents each instance of a player in our game.
@@ -11,6 +13,7 @@ public class Player {
     private boolean roleTaken;
     private PlayerCurrency wallet;
     public int pracChips;
+    private JLabel label;
 
     public Player(String name, int rank, Room location, boolean roleTaken, int pracChips, PlayerCurrency money){
         playerName = name;
@@ -151,6 +154,14 @@ public class Player {
         if(playerRole != null){return playerRole.getRoleDescription();}else{return "No Current Role";}
     }
 
+
+    public void setLabel(JLabel l){
+        label = l;
+    }
+
+    public JLabel getLabel(){
+        return label;
+    }
     //public void moveOptions(Room playerLoc){
     //    Room[] adjRooms = playerLoc.getAdjRooms();
     //    for(Room room: adjRooms){

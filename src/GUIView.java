@@ -22,7 +22,7 @@ public class GUIView
     private JLabel scene;
     private JLabel shot;
     private JLabel die;
-    private JLabel[] disp;
+    private JLabel[] disp = new JLabel[6];
 
     private JButton moveButton;
     private JButton workButton;
@@ -42,6 +42,7 @@ public class GUIView
         background.setBounds(0,0,1200,900);
         background.setIcon(r.getBG());
 
+
         float[] hsbVal = new float[3];
         hsbVal = Color.RGBtoHSB(177,114,70,hsbVal);
 
@@ -54,10 +55,25 @@ public class GUIView
 
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Object[] rooms ={"room1", "room2", "etc."};
-                String var = (String)JOptionPane.showInputDialog(new JFrame(), "Select a room", "Select a Room",
-                        JOptionPane.PLAIN_MESSAGE, null,
-                        rooms, "Move");
+                if (GUI.getMoveAble()) {
+                    Room[] roomOptions = GUI.cPlayer.getPlayerLoc().getAdjRooms();
+                    String[] names = new String[roomOptions.length];
+                    for (int i = 0; i < roomOptions.length; i++) {
+                        names[i] = roomOptions[i].getRoomName();
+                    }
+                    String var = (String) JOptionPane.showInputDialog(null, "Select a room", "Select a Room",
+                            JOptionPane.PLAIN_MESSAGE, null,
+                            names, "Move");
+                    for (Room r : GUI.rArray) {
+                        if (r.getRoomName().equals(var)) {
+                            GUI.cPlayer.move(r);
+                            GUI.cPlayer.getPlayerLoc().removePlayer(GUI.cPlayer);
+                            r.addPlayer(GUI.cPlayer);
+                            movePlayer(r);
+                        }
+                    }
+                    GUI.setMoveAble(false);
+                }
             }
         });
 
@@ -90,7 +106,20 @@ public class GUIView
         add(endButton);
         endButton.setBounds(1205,700,200,100);
         endButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+        endButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                remove(disp[0]);
+                remove(disp[1]);
+                remove(disp[2]);
+                remove(disp[3]);
+                remove(disp[4]);
+                GUI.endTurn();
+            }
+        });
         setVisible(true);
+
 
 
     }
@@ -139,6 +168,7 @@ public class GUIView
            add(die, new Integer(i+1));
            die.setBounds(1050,270+(50*i),40,40);
            die.setIcon(r.getDice(playerDie));
+           playerList[i].setLabel(die);
            setVisible(true );
         }
         repaint();
@@ -156,8 +186,6 @@ public class GUIView
     }
 
     public void updatePlayerDisp(String name, String dollars, String credits, String part, String partD){
-        disp = new JLabel[6];
-
         disp[0] = new JLabel(name,0);
         disp[0].setFont(disp[0].getFont().deriveFont((float)20));
         add(disp[0],new Integer(3));
@@ -185,5 +213,20 @@ public class GUIView
         add(disp[4],new Integer(7));
         disp[4].setBounds(1200,120,200,50);
         setVisible(true);
+    }
+    private void movePlayer(Room r){
+        JLabel mLabel = GUI.cPlayer.getLabel();
+        int pNum = r.getPlayersInRoom().size();
+        if(r.getSceneRoom()){
+            SceneRoom sr = (SceneRoom) r;
+            int [] area = sr.getArea();
+            mLabel.setBounds(area[0]+(50*(pNum-1)),area[1]+125,40,40);
+            setVisible(true);
+        }else if(r.getRoomName().equals("trailer")){
+            mLabel.setBounds(1050,270+(50*pNum),40,40);
+        }else if(r.getRoomName().equals("office")){
+            mLabel.setBounds(75,420+(50*pNum),40,40);
+        }
+
     }
 }
