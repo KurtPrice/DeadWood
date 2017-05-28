@@ -6,6 +6,7 @@ import javafx.scene.control.TextInputDialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class GUIView
 
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (GUI.getMoveAble()) {
+                if (GUI.getMoveAble() && !GUI.cPlayer.getRoleTaken()) {
                     Room[] roomOptions = GUI.cPlayer.getPlayerLoc().getAdjRooms();
                     String[] names = new String[roomOptions.length];
                     for (int i = 0; i < roomOptions.length; i++) {
@@ -70,9 +71,9 @@ public class GUIView
                             GUI.cPlayer.getPlayerLoc().removePlayer(GUI.cPlayer);
                             r.addPlayer(GUI.cPlayer);
                             movePlayer(r);
+                            GUI.setMoveAble(false);
                         }
                     }
-                    GUI.setMoveAble(false);
                 }
             }
         });
@@ -82,6 +83,44 @@ public class GUIView
         add(workButton);
         workButton.setBounds(1205,300,200,100);
         workButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+        workButton.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (GUI.cPlayer.getRoleTaken() == false && GUI.cPlayer.getPlayerLoc().getSceneRoom()) {
+                SceneRoom sr = (SceneRoom)GUI.cPlayer.getPlayerLoc();
+                Role[] roleOptions = sr.getRoleList();
+                ArrayList<String> names = new ArrayList<>();
+                for (int i = 0; i < roleOptions.length; i++) {
+                    if(roleOptions[i].getRoleRank()<=GUI.cPlayer.getPlayerRank()){
+                        names.add(roleOptions[i].getRoleName());
+                    }
+                }
+                for (int i = 0; i < sr.getRoomScene().getRoleList().length; i++) {
+                    if(sr.getRoomScene().getRoleList()[i].getRoleRank()<=GUI.cPlayer.getPlayerRank()){
+                        names.add(sr.getRoomScene().getRoleList()[i].getRoleName());
+                    }
+                }
+                Object[] namesArray = names.toArray();
+                String var = (String) JOptionPane.showInputDialog(null, "Select a role", "Select a Role",
+                        JOptionPane.PLAIN_MESSAGE, null,
+                        namesArray, "Work");
+                for (Role r : sr.getRoleList()) {
+                    if (r.getRoleName().equals(var)) {
+                        GUI.cPlayer.takeRole(r);
+                        takeRolePlayer(sr,r);
+                        GUI.setActAble(false);
+                    }
+                }
+                for (Role r : sr.getRoomScene().getRoleList()) {
+                    if (r.getRoleName().equals(var)) {
+                        GUI.cPlayer.takeRole(r);
+                        takeRolePlayer(sr,r);
+                        GUI.setActAble(false);
+                    }
+                }
+            }
+        }
+    });
 
         upgradeButton = new JButton("Upgrade");
         upgradeButton.setFont(upgradeButton.getFont().deriveFont((float)30));
@@ -180,6 +219,7 @@ public class GUIView
         add(scene, new Integer(2));
         scene.setBounds(x,y,205,115);
         scene.setIcon(r.getScene(sceneImg));
+        background.add(scene);
 
         setVisible(true);
         setFocusable(true);
@@ -223,10 +263,47 @@ public class GUIView
             mLabel.setBounds(area[0]+(50*(pNum-1)),area[1]+125,40,40);
             setVisible(true);
         }else if(r.getRoomName().equals("trailer")){
-            mLabel.setBounds(1050,270+(50*pNum),40,40);
+            mLabel.setBounds(1050,270+(50*(pNum-1)),40,40);
         }else if(r.getRoomName().equals("office")){
-            mLabel.setBounds(75,420+(50*pNum),40,40);
+            mLabel.setBounds(75,420+(50*(pNum-1)),40,40);
         }
+
+    }
+    private void takeRolePlayer(SceneRoom sr,Role r){
+        Player currentPlayer = GUI.cPlayer;
+        JLabel mLabel = currentPlayer.getLabel();
+
+        if(r.getOnCardRole()){
+            for(int i=0; i<sr.getRoomScene().getRoleList().length; i++){
+                if(sr.getRoomScene().getRoleList()[i].getRoleRank() == r.getRoleRank()){
+                    int x = sr.getArea()[0];
+                    int y = sr.getArea()[1];
+                    double xAdj = 205.0*(1.0/(1.0 + sr.getRoomScene().getRoleList().length))*(i+1.0);
+                    int xCoordinate = x+(int)Math.round(xAdj)-30;
+                    mLabel.setBounds(xCoordinate,y+48,40,40);
+
+                    setVisible(true);
+                }
+            }
+        }else{
+            for(Role rr : sr.getRoleList()){
+                if(rr.getRoleName().equals(r.getRoleName())){
+                    int [] area = rr.getRoleArea();
+                    mLabel.setBounds(area[0]+3,area[1]+3,40,40);
+                }
+            }
+        }
+        remove(disp[0]);
+        remove(disp[1]);
+        remove(disp[2]);
+        remove(disp[3]);
+        remove(disp[4]);
+        updatePlayerDisp(currentPlayer.getPlayerName() + "'s turn",
+                "$" + currentPlayer.getWallet().getDollars(),
+                currentPlayer.getWallet().getCredits() + "cd",
+                "Current Part: " + currentPlayer.getRoleName(),
+                "Part: " + currentPlayer.getRoleDesc());
+            setVisible(true);
 
     }
 }

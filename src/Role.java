@@ -8,6 +8,7 @@ public class Role {
     private int roleRank;
     private boolean roleOccupancy;
     private boolean onCardRole;
+    private int [] area;
 
     public Role(String name, String description, int rank, boolean onCard){
         roleName = name;
@@ -16,7 +17,6 @@ public class Role {
         onCardRole = onCard;
         roleOccupancy = false;
     }
-
     /**
      * Methods: getRoleName, getRoleDescription, getOnCardRole, getRoleRank
      *
@@ -41,5 +41,11 @@ public class Role {
 
     public int getRoleRank(){
         return roleRank;
+    }
+
+    public int [] getRoleArea(){return area;}
+
+    public void setRoleArea(int [] a){
+        area = a;
     }
 }

@@ -62,6 +62,14 @@ public class ReadBoardXML {
                             String pRank = eElementRole.getAttribute("level");
                             String pDescription = eElementRole.getElementsByTagName("line").item(0).getTextContent();
                             Role r = new Role(pName, pDescription, Integer.parseInt(pRank), false);
+                            Node areaNode = eElementRole.getElementsByTagName("area").item(0);
+                            Node roleAreaNodeX = areaNode.getAttributes().getNamedItem("x");
+                            Node roleAreaNodeY = areaNode.getAttributes().getNamedItem("y");
+                            int[] array = new int[2];
+                            array[0]= Integer.parseInt(roleAreaNodeX.getNodeValue());
+                            array[1]= Integer.parseInt(roleAreaNodeY.getNodeValue());
+                            r.setRoleArea(array);
+
                             sRoles[roleIndex] = r;
                             roleIndex++;
                         }

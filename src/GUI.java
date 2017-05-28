@@ -17,6 +17,7 @@ public class GUI {
     public static Player cPlayer;
     public static Room[] rArray;
     private static boolean  moveAble;
+    private static boolean  actAble;
     private static boolean end;
     public GUI () throws IOException {
 
@@ -54,6 +55,7 @@ public class GUI {
                 "Part: " + currentPlayer.getRoleDesc());
         end = false;
         moveAble = true;
+        actAble = true;
         boolean actAble = true;
         boolean finishScene = false;
         while (!end) {
@@ -231,6 +233,12 @@ public class GUI {
     }
     public static void setMoveAble(boolean b){
         moveAble = b;
+    }
+    public static boolean getActAble(){
+        return actAble;
+    }
+    public static void setActAble(boolean b){
+        actAble = b;
     }
     public static void endTurn(){
         end =true;
