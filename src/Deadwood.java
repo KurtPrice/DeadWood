@@ -10,7 +10,7 @@ public class Deadwood {
     private static UIText UI = new UIText();
     private static GUI UI2;
     private static int numPlayer = 0;
-    private static Player[] playerList;
+    public static Player[] playerList;
     private static ArrayList<Integer> usedScenes = new ArrayList<>();
     private static Scene[] sceneArray;
     private static Room[] roomArray;

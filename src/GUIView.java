@@ -144,7 +144,8 @@ public class GUIView
                 Player current = GUI.cPlayer;
                 if(current.getPlayerLoc().getRoomName() == "office"){
                     CastingOffice office = (CastingOffice) current.getPlayerLoc();
-                    ArrayList<Integer> ranks = current.getUpgrades();
+                    initOfficeCosts(office);
+                    ArrayList<Integer> ranks = current.getUpgrades(office);
                     boolean success;
                     int rank = (int) JOptionPane.showInputDialog(null, "Select a rank",
                             "Select a rank",
@@ -159,9 +160,12 @@ public class GUIView
                         JOptionPane.showMessageDialog(null, "Error attempting to upgrade!");
                     } else{
                         JOptionPane.showMessageDialog(null, "Player upgraded to " + rank);
+                        updatePlayers(Deadwood.playerList);
                     }
                 }
             }
+
+
         });
 
         rehearseButton = new JButton("Rehearse");
@@ -233,6 +237,17 @@ public class GUIView
                 } else {
                     JOptionPane.showMessageDialog(null,"No role to act.");
                 }
+                remove(disp[0]);
+                remove(disp[1]);
+                remove(disp[2]);
+                remove(disp[3]);
+                remove(disp[4]);
+                updatePlayerDisp(currentPlayer.getPlayerName() + "'s turn",
+                        "$" + currentPlayer.getWallet().getDollars(),
+                        currentPlayer.getWallet().getCredits() + "cd",
+                        "Current Part: " + currentPlayer.getRoleName(),
+                        "Part: " + currentPlayer.getRoleDesc());
+                setVisible(true);
             }
         });
 
@@ -294,6 +309,24 @@ public class GUIView
         }
         repaint();
     }
+
+    public void updatePlayers(Player[] playerList){
+        Resources r = Resources.getInstance();
+        for(int i=0; i<playerList.length; i++){
+            if(playerList[i].getPlayerLoc().getRoomName() == "office") {
+                int playerDie = ((6 * i) + (playerList[i].getPlayerRank() - 1));
+                die = new JLabel();
+                remove(playerList[i].getLabel());
+                add(die, new Integer(i + 1));
+                die.setBounds(75, 420 + (50 * (i - 1)), 40, 40);
+                die.setIcon(r.getDice(playerDie));
+                playerList[i].setLabel(die);
+                setVisible(true);
+            }
+        }
+        repaint();
+    }
+
     public void revealScene(int x, int y, String sceneImg){
         Resources r = Resources.getInstance();
 
@@ -387,5 +420,20 @@ public class GUIView
                 "Part: " + currentPlayer.getRoleDesc());
             setVisible(true);
 
+    }
+
+    public void initOfficeCosts(CastingOffice office) {
+        /* Set Office Credit Requirements */
+        office.setRankRequireCredit(2, 5);
+        office.setRankRequireCredit(3, 10);
+        office.setRankRequireCredit(4, 15);
+        office.setRankRequireCredit(5, 20);
+        office.setRankRequireCredit(6, 25);
+        /* Set Office Dollar Requirements */
+        office.setRankRequireDollar(2, 4);
+        office.setRankRequireDollar(3, 10);
+        office.setRankRequireDollar(4, 18);
+        office.setRankRequireDollar(5, 28);
+        office.setRankRequireDollar(6, 40);
     }
 }

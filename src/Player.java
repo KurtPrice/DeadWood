@@ -238,8 +238,7 @@ public class Player {
         wallet.incDollars(dollars);
     }
 
-    public ArrayList<Integer> getUpgrades(){
-        CastingOffice office = new CastingOffice("Office", 0);
+    public ArrayList<Integer> getUpgrades(CastingOffice office){
         int credits = wallet.getCredits();
         int dollars = wallet.getDollars();
         ArrayList<Integer> possibleRanks = new ArrayList<>();
@@ -248,6 +247,7 @@ public class Player {
             if(office.rankUpgradable(dollars, credits, checkRank)){
                 possibleRanks.add(checkRank);
             }
+            checkRank++;
         }
         return possibleRanks;
     }

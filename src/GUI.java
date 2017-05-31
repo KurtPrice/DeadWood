@@ -59,11 +59,11 @@ public class GUI {
         boolean actAble = true;
         boolean finishScene = false;
         while (!end) {
-            gView.updatePlayerDisp(currentPlayer.getPlayerName() + "'s turn",
-                    "$" + currentPlayer.getWallet().getDollars(),
-                    currentPlayer.getWallet().getCredits() + "cd",
-                    "Current Part: " + currentPlayer.getRoleName(),
-                    "Part: " + currentPlayer.getRoleDesc());
+            String entry = "null";
+            Role[] availRolesScene = new Role[0];
+            Role[] availRolesRoom = new Role[0];
+
+            String[] entrySplit = entry.split(" ", 2);
         }
         return finishScene;
     }
