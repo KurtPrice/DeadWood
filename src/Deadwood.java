@@ -159,7 +159,6 @@ public class Deadwood {
         numScenes = 10;
         Random rand = new Random();
         SceneRoom sr = (SceneRoom) roomArray[i];
-        GUI.setScene(sr.getArea(),i);
         sr.tempShotCounters = sr.shotCounters;
         sr.setFinishScene(false);
         int n = rand.nextInt(40);
@@ -168,7 +167,8 @@ public class Deadwood {
         } else {
             sr.setRoomScene(sceneArray[n]);
             usedScenes.add(n);
-            GUI.revealScene(sr.getArea(), sr.getRoomScene().getSceneImg());
+            GUI.setScene(sr.getArea(), sr.getRoomScene().getSceneImg());
+            GUI.setCardBack(sr.getArea(),i);
             for(int j=0; j<sr.getShotAreaSixe(); j++){
                 GUI.setShot(sr.getShotArea(j));
             }

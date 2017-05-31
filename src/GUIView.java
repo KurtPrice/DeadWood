@@ -71,7 +71,6 @@ public class GUIView
                             if(GUI.rArray[i].getSceneRoom() && GUI.rArray[i].getPlayersInRoom().isEmpty()){
                                 SceneRoom sr = (SceneRoom)GUI.rArray[i];
                                 remove(cardBack[i]);
-                                repaint();
                             }
                             GUI.cPlayer.move(GUI.rArray[i]);
                             GUI.cPlayer.getPlayerLoc().removePlayer(GUI.cPlayer);
@@ -81,6 +80,7 @@ public class GUIView
                         }
                     }
                 }
+                repaint();
             }
         });
 
@@ -258,7 +258,7 @@ public class GUIView
 
     }
 
-    public void setScene(int x,int y, int tag) {
+    public void setCardBack(int x,int y, int tag) {
         Resources r = Resources.getInstance();
         cardBack[tag] = new JLabel();
         add(cardBack[tag], new Integer(tag+1));
@@ -286,14 +286,16 @@ public class GUIView
             int playerDie = ((6*i)+(playerList[i].getPlayerRank()-1));
             die = new JLabel();
            add(die, new Integer(i+1));
-           die.setBounds(1050,270+(50*i),40,40);
+           if (i < 4) {
+               die.setBounds(1050, 250 + (50 * i), 40, 40);
+           }else{die.setBounds(1100, 250 + (50 * (i-4)), 40, 40);}
            die.setIcon(r.getDice(playerDie));
            playerList[i].setLabel(die);
            setVisible(true );
         }
         repaint();
     }
-    public void revealScene(int x, int y, String sceneImg){
+    public void setScene(int x, int y, String sceneImg){
         Resources r = Resources.getInstance();
 
         scene = new JLabel();
@@ -341,12 +343,19 @@ public class GUIView
         if(r.getSceneRoom()){
             SceneRoom sr = (SceneRoom) r;
             int [] area = sr.getArea();
+            if(r.getPlayersInRoom().size() < 5){
             mLabel.setBounds(area[0]+(50*(pNum-1)),area[1]+125,40,40);
+            }else{ mLabel.setBounds(area[0]+(50*(pNum-5)),area[1],40,40);}
             setVisible(true);
         }else if(r.getRoomName().equals("trailer")){
-            mLabel.setBounds(1050,270+(50*(pNum-1)),40,40);
+            if(r.getPlayersInRoom().size() < 5){
+                mLabel.setBounds(1050,250+(50*(pNum-1)),40,40);
+            }else{mLabel.setBounds(1100,250+(50*(pNum-5)),40,40); }
+
         }else if(r.getRoomName().equals("office")){
-            mLabel.setBounds(75,420+(50*(pNum-1)),40,40);
+            if(r.getPlayersInRoom().size()<5){
+                mLabel.setBounds(75,470+(50*(pNum-1)),40,40);
+            }else{mLabel.setBounds( 125,420+(50*(pNum-5)),40,40);}
         }
 
     }
@@ -359,8 +368,13 @@ public class GUIView
                 if(sr.getRoomScene().getRoleList()[i].getRoleRank() == r.getRoleRank()){
                     int x = sr.getArea()[0];
                     int y = sr.getArea()[1];
-                    double xAdj = 205.0*(1.0/(1.0 + sr.getRoomScene().getRoleList().length))*(i+1.0);
-                    int xCoordinate = x+(int)Math.round(xAdj)-30;
+                    int xCoordinate = 0;
+
+                    if(sr.getRoomScene().getRoleList().length == 3){
+                       xCoordinate = Math.round(x + 20 + (62*(i)));
+                    }else if(sr.getRoomScene().getRoleList().length == 2){
+                        xCoordinate = Math.round(x + 52 + (63*(i)));
+                    }else{xCoordinate = Math.round(x+(205/2)-20);}
                     mLabel.setBounds(xCoordinate,y+48,40,40);
 
                     setVisible(true);
