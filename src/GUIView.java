@@ -3,6 +3,7 @@
  */
 
 import javafx.scene.control.TextInputDialog;
+import jdk.nashorn.internal.scripts.JO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -216,21 +217,21 @@ public class GUIView
                             currentPlayer.getWallet().incDollars(1);
                             currentPlayer.getWallet().incCredits(1);
                         }
-                        System.out.println("Act successful!");
+                        JOptionPane.showMessageDialog(null,"Act successful!");
                     } else {
                         if (!currentPlayer.getRole().getOnCardRole()) {
                             currentPlayer.getWallet().incDollars(1);
                         }
-                        System.out.println("Act unsuccessful.");
+                        JOptionPane.showMessageDialog(null,"Act unsuccessful.");
                     }
                     if (sr.tempShotCounters == 0) {
-                        System.out.println("That's a wrap!");
+                        JOptionPane.showMessageDialog(null,"That's a wrap!");
                         //finishScene = true;
                         sr.setFinishScene(true);
                         sr.getRoomScene().finishScene(sr);
                     }
                 } else {
-                    System.out.println("No role to act.");
+                    JOptionPane.showMessageDialog(null,"No role to act.");
                 }
             }
         });
