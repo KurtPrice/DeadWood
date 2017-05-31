@@ -213,10 +213,15 @@ public class GUIView
                     Random ran = new Random();
                     int dieRole = (ran.nextInt(6) + 1);
                     if (budget <= (currentPlayer.pracChips + dieRole)) {
+                        int [] shotCoordRemove = sr.getShotArea(sr.tempShotCounters-1);
                         if (currentPlayer.getRole().getOnCardRole()) {
+                            JLabel finishedShot = (JLabel) background.findComponentAt(shotCoordRemove[0],shotCoordRemove[1]);
+                            background.remove(finishedShot);
                             sr.tempShotCounters--;
                             currentPlayer.getWallet().incCredits(2);
                         } else {
+                            JLabel finishedShot = (JLabel) background.findComponentAt(shotCoordRemove[0],shotCoordRemove[1]);
+                            background.remove(finishedShot);
                             sr.tempShotCounters--;
                             currentPlayer.getWallet().incDollars(1);
                             currentPlayer.getWallet().incCredits(1);
@@ -232,6 +237,9 @@ public class GUIView
                         JOptionPane.showMessageDialog(null,"That's a wrap!");
                         //finishScene = true;
                         sr.setFinishScene(true);
+                        JLabel finishedScene = (JLabel) background.findComponentAt(sr.getArea()[0],sr.getArea()[1]);
+                        background.remove(finishedScene);
+                        GUI.setMoveAble(false);
                         sr.getRoomScene().finishScene(sr);
                     }
                 } else {
@@ -248,6 +256,7 @@ public class GUIView
                         "Current Part: " + currentPlayer.getRoleName(),
                         "Part: " + currentPlayer.getRoleDesc());
                 setVisible(true);
+                repaint();
             }
         });
 
@@ -257,7 +266,6 @@ public class GUIView
         endButton.setBounds(1205,700,200,100);
         endButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
         endButton.addActionListener(new ActionListener(){
-
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 remove(disp[0]);
@@ -288,7 +296,7 @@ public class GUIView
         Resources r = Resources.getInstance();
 
         shot = new JLabel();
-        add(shot, new Integer(1));
+        background.add(shot, new Integer(1));
         shot.setBounds(x,y,47,47);
         shot.setIcon(r.getShotCounter());
 

@@ -271,7 +271,7 @@ public class UIText {
      * Return(s): Returns an int being the number of players that are playing the game.
      */
     public int numberPlayers() {
-        System.out.println("How many players are playing?");
+        //System.out.println("How many players are playing?");
         String entry = JOptionPane.showInputDialog(new JFrame(), "Enter number of players");
         if (isStringInt(entry)) {
             int pCount = Integer.parseInt(entry);
