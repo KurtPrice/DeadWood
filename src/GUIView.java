@@ -158,6 +158,29 @@ public class GUIView
         add(rehearseButton);
         rehearseButton.setBounds(1205,500,200,100);
         rehearseButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+        rehearseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Player current = GUI.cPlayer;
+                if (!GUI.getActAble()) {
+                    JOptionPane.showMessageDialog(null,"You have already acted or rehearsed.");
+                    return;
+                }
+                if (current.getRoleTaken()) {
+                    SceneRoom sr = (SceneRoom) current.getPlayerLoc();
+                    int budget = sr.getRoomScene().getBudget();
+                    if (budget > (current.pracChips + 1)) {
+                        current.pracChips++;
+                        GUI.setActAble(false);
+                        JOptionPane.showMessageDialog(null,"One practice chip added.");
+                    } else {
+                        JOptionPane.showMessageDialog(null,"Max practice chips, you must act.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"No role to rehearse.");
+                }
+            }
+        });
 
         actButton = new JButton("Act");
         actButton.setFont(actButton.getFont().deriveFont((float)30));
