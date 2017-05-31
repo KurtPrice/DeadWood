@@ -223,7 +223,7 @@ public class GUIView
     public void setScene(int x,int y, int tag) {
         Resources r = Resources.getInstance();
         cardBack[tag] = new JLabel();
-        add(cardBack[tag], new Integer(tag));
+        add(cardBack[tag], new Integer(tag+1));
         cardBack[tag].setBounds(x,y,205,115);
         cardBack[tag].setIcon(r.getCB());
 
