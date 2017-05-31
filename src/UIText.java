@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -271,17 +272,17 @@ public class UIText {
      */
     public int numberPlayers() {
         System.out.println("How many players are playing?");
-        String entry = sc.nextLine();
+        String entry = JOptionPane.showInputDialog(new JFrame(), "Enter number of players");
         if (isStringInt(entry)) {
             int pCount = Integer.parseInt(entry);
             if (pCount >= 2 & pCount <= 8) {
                 return pCount;
             } else {
-                System.out.println("Invalid number of players enter a number between 2 and 8");
+                JOptionPane.showMessageDialog(new JFrame(), "Invalid number of players enter a number between 2 and 8");
                 return numberPlayers();
             }
         } else {
-            System.out.println("Invalid number of players enter a number between 2 and 8");
+            JOptionPane.showMessageDialog(new JFrame(), "Invalid number of players enter a number between 2 and 8");
             return numberPlayers();
         }
     }

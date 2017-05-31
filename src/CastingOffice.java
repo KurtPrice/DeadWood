@@ -84,4 +84,13 @@ public class CastingOffice extends Room {
         }
         return false;
     }
+
+    public boolean rankUpgradable(int dollars, int credits, int rank){
+        if(dollars >= rankRequireDollar.get(rank)){
+            return true;
+        } else if(credits >= rankRequireCredit.get(rank)){
+            return true;
+        }
+        return false;
+    }
 }

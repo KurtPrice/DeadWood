@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * Created by pricek21 on 5/2/17.
@@ -235,5 +236,19 @@ public class Player {
     public void actRole(int credits, int dollars){
         wallet.incCredits(credits);
         wallet.incDollars(dollars);
+    }
+
+    public ArrayList<Integer> getUpgrades(){
+        CastingOffice office = new CastingOffice("Office", 0);
+        int credits = wallet.getCredits();
+        int dollars = wallet.getDollars();
+        ArrayList<Integer> possibleRanks = new ArrayList<>();
+        int checkRank = 2;
+        while(checkRank < 7){
+            if(office.rankUpgradable(dollars, credits, checkRank)){
+                possibleRanks.add(checkRank);
+            }
+        }
+        return possibleRanks;
     }
 }

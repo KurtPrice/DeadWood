@@ -32,7 +32,7 @@ public class GUI {
 
         mainFrame.getContentPane().add(gView);
         //mainFrame.getContentPane().add(cCtlr);
-        mainFrame.getContentPane().setPreferredSize(new Dimension(1400,900));
+        mainFrame.getContentPane().setPreferredSize(new Dimension(1410,900));
         mainFrame.pack();
 
         mainFrame.addWindowListener(new WindowAdapter() {

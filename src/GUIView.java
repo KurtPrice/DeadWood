@@ -127,6 +127,31 @@ public class GUIView
         add(upgradeButton);
         upgradeButton.setBounds(1205,400,200,100);
         upgradeButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+        upgradeButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent actionEvent){
+                Player current = GUI.cPlayer;
+                if(current.getPlayerLoc().getRoomName() == "office"){
+                    CastingOffice office = (CastingOffice) current.getPlayerLoc();
+                    ArrayList<Integer> ranks = current.getUpgrades();
+                    boolean success;
+                    int rank = (int) JOptionPane.showInputDialog(null, "Select a rank",
+                            "Select a rank",
+                            JOptionPane.PLAIN_MESSAGE, null,
+                            ranks.toArray(), "Upgrade");
+
+                    success = office.rankPlayerCredit(rank, current);
+                    if(!success){
+                        success = office.rankPlayerDollar(rank, current);
+                    }
+                    if(!success){
+                        JOptionPane.showMessageDialog(null, "Error attempting to upgrade!");
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Player upgraded to " + rank);
+                    }
+                }
+            }
+        });
 
         rehearseButton = new JButton("Rehearse");
         rehearseButton.setFont(rehearseButton.getFont().deriveFont((float)30));
