@@ -83,12 +83,12 @@ public class GUI {
     public static void endTurn(){
         end =true;
     }
-    public static void setScene(int[] area, int tag){
-        gView.setScene(area[0],area[1],tag);
+    public static void setCardBack(int[] area, int tag){
+        gView.setCardBack(area[0],area[1],tag);
     }
 
-    public static void revealScene(int[] area, String sceneImg){
-        gView.revealScene(area[0],area[1],sceneImg);
+    public static void setScene(int[] area, String sceneImg){
+        gView.setScene(area[0],area[1],sceneImg);
     }
 
     public static void setShot(int[] area){
