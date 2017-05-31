@@ -48,4 +48,12 @@ public class Role {
     public void setRoleArea(int [] a){
         area = a;
     }
+
+    public void setRoleOccupancy(boolean b){
+        roleOccupancy = b;
+    }
+
+    public boolean getRoleOccupancy(){
+        return  roleOccupancy;
+    }
 }

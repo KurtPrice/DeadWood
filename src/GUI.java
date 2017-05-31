@@ -243,8 +243,8 @@ public class GUI {
     public static void endTurn(){
         end =true;
     }
-    public static void setScene(int[] area){
-        gView.setScene(area[0],area[1]);
+    public static void setScene(int[] area, int tag){
+        gView.setScene(area[0],area[1],tag);
     }
 
     public static void revealScene(int[] area, String sceneImg){

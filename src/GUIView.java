@@ -4,13 +4,13 @@
 
 import javafx.scene.control.TextInputDialog;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
-import java.awt.Color;
 //import model.GUI;
 
 
@@ -19,7 +19,7 @@ public class GUIView
         //implements GUI.Listener {
 
     private JLabel background;
-    private JLabel cardBack;
+    private JLabel[] cardBack = new JLabel[10];
     private JLabel scene;
     private JLabel shot;
     private JLabel die;
@@ -65,12 +65,17 @@ public class GUIView
                     String var = (String) JOptionPane.showInputDialog(null, "Select a room", "Select a Room",
                             JOptionPane.PLAIN_MESSAGE, null,
                             names, "Move");
-                    for (Room r : GUI.rArray) {
-                        if (r.getRoomName().equals(var)) {
-                            GUI.cPlayer.move(r);
+                    for (int i = 0; i<GUI.rArray.length; i++) {
+                        if (GUI.rArray[i].getRoomName().equals(var)) {
+                            if(GUI.rArray[i].getSceneRoom() && GUI.rArray[i].getPlayersInRoom().isEmpty()){
+                                SceneRoom sr = (SceneRoom)GUI.rArray[i];
+                                remove(cardBack[i]);
+                                repaint();
+                            }
+                            GUI.cPlayer.move(GUI.rArray[i]);
                             GUI.cPlayer.getPlayerLoc().removePlayer(GUI.cPlayer);
-                            r.addPlayer(GUI.cPlayer);
-                            movePlayer(r);
+                            GUI.rArray[i].addPlayer(GUI.cPlayer);
+                            movePlayer(GUI.rArray[i]);
                             GUI.setMoveAble(false);
                         }
                     }
@@ -91,31 +96,35 @@ public class GUIView
                 Role[] roleOptions = sr.getRoleList();
                 ArrayList<String> names = new ArrayList<>();
                 for (int i = 0; i < roleOptions.length; i++) {
-                    if(roleOptions[i].getRoleRank()<=GUI.cPlayer.getPlayerRank()){
+                    if(roleOptions[i].getRoleRank()<=GUI.cPlayer.getPlayerRank() && !roleOptions[i].getRoleOccupancy()){
                         names.add(roleOptions[i].getRoleName());
                     }
                 }
                 for (int i = 0; i < sr.getRoomScene().getRoleList().length; i++) {
-                    if(sr.getRoomScene().getRoleList()[i].getRoleRank()<=GUI.cPlayer.getPlayerRank()){
+                    if(sr.getRoomScene().getRoleList()[i].getRoleRank()<=GUI.cPlayer.getPlayerRank() && !sr.getRoomScene().getRoleList()[i].getRoleOccupancy()){
                         names.add(sr.getRoomScene().getRoleList()[i].getRoleName());
                     }
                 }
                 Object[] namesArray = names.toArray();
-                String var = (String) JOptionPane.showInputDialog(null, "Select a role", "Select a Role",
-                        JOptionPane.PLAIN_MESSAGE, null,
-                        namesArray, "Work");
-                for (Role r : sr.getRoleList()) {
-                    if (r.getRoleName().equals(var)) {
-                        GUI.cPlayer.takeRole(r);
-                        takeRolePlayer(sr,r);
-                        GUI.setActAble(false);
+                if(!names.isEmpty()) {
+                    String var = (String) JOptionPane.showInputDialog(null, "Select a role", "Select a Role",
+                            JOptionPane.PLAIN_MESSAGE, null,
+                            namesArray, "Work");
+                    for (Role r : sr.getRoleList()) {
+                        if (r.getRoleName().equals(var)) {
+                            GUI.cPlayer.takeRole(r);
+                            takeRolePlayer(sr, r);
+                            GUI.setActAble(false);
+                            r.setRoleOccupancy(true);
+                        }
                     }
-                }
-                for (Role r : sr.getRoomScene().getRoleList()) {
-                    if (r.getRoleName().equals(var)) {
-                        GUI.cPlayer.takeRole(r);
-                        takeRolePlayer(sr,r);
-                        GUI.setActAble(false);
+                    for (Role r : sr.getRoomScene().getRoleList()) {
+                        if (r.getRoleName().equals(var)) {
+                            GUI.cPlayer.takeRole(r);
+                            takeRolePlayer(sr, r);
+                            GUI.setActAble(false);
+                            r.setRoleOccupancy(true);
+                        }
                     }
                 }
             }
@@ -211,28 +220,14 @@ public class GUIView
 
     }
 
-    public void setScene(int x,int y) {
+    public void setScene(int x,int y, int tag) {
         Resources r = Resources.getInstance();
-
-        cardBack = new JLabel();
-        add(cardBack, new Integer(1));
-        cardBack.setBounds(x,y,205,115);
-        cardBack.setIcon(r.getCB());
+        cardBack[tag] = new JLabel();
+        add(cardBack[tag], new Integer(tag));
+        cardBack[tag].setBounds(x,y,205,115);
+        cardBack[tag].setIcon(r.getCB());
 
         setVisible(true);
-        setFocusable(true);
-       // int h = c.getHours();
-       // hTen.setIcon(r.getIcon(h/10));
-        //hOne.setIcon(r.getIcon(h%10));
-
-       // int m = c.getMinutes();
-       // mTen.setIcon(r.getIcon(m/10));
-        //mOne.setIcon(r.getIcon(m%10));
-
-       // int s = c.getSeconds();
-        //sTen.setIcon(r.getIcon(s/10));
-        //sOne.setIcon(r.getIcon(s%10));
-
     }
 
     public void setShotCounter(int x, int y){
