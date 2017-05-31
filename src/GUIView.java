@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.*;
 //import model.GUI;
 
@@ -196,6 +197,43 @@ public class GUIView
         add(actButton);
         actButton.setBounds(1205,600,200,100);
         actButton.setBackground(Color.getHSBColor(hsbVal[0],hsbVal[1],hsbVal[2]));
+        actButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Player currentPlayer = GUI.cPlayer;
+                if (GUI.getActAble() && currentPlayer.getRoleTaken()) {
+                    GUI.setActAble(false);
+                    SceneRoom sr = (SceneRoom) currentPlayer.getPlayerLoc();
+                    int budget = sr.getRoomScene().getBudget();
+                    Random ran = new Random();
+                    int dieRole = (ran.nextInt(6) + 1);
+                    if (budget <= (currentPlayer.pracChips + dieRole)) {
+                        if (currentPlayer.getRole().getOnCardRole()) {
+                            sr.tempShotCounters--;
+                            currentPlayer.getWallet().incCredits(2);
+                        } else {
+                            sr.tempShotCounters--;
+                            currentPlayer.getWallet().incDollars(1);
+                            currentPlayer.getWallet().incCredits(1);
+                        }
+                        System.out.println("Act successful!");
+                    } else {
+                        if (!currentPlayer.getRole().getOnCardRole()) {
+                            currentPlayer.getWallet().incDollars(1);
+                        }
+                        System.out.println("Act unsuccessful.");
+                    }
+                    if (sr.tempShotCounters == 0) {
+                        System.out.println("That's a wrap!");
+                        //finishScene = true;
+                        sr.setFinishScene(true);
+                        sr.getRoomScene().finishScene(sr);
+                    }
+                } else {
+                    System.out.println("No role to act.");
+                }
+            }
+        });
 
         endButton = new JButton("End");
         endButton.setFont(endButton.getFont().deriveFont((float)30));

@@ -35,7 +35,7 @@ public class Deadwood {
             } catch(NumberFormatException e){
                 numPlayer = UI.numberPlayers();
             }
-        }
+        }else{numPlayer = UI.numberPlayers();}
         sceneArray = ReadSceneXML.read();
         roomArray = ReadBoardXML.read();
         try{
