@@ -235,11 +235,11 @@ public class GUIView
                     }
                     if (sr.tempShotCounters == 0) {
                         JOptionPane.showMessageDialog(null,"That's a wrap!");
-                        //finishScene = true;
                         sr.setFinishScene(true);
                         JLabel finishedScene = (JLabel) background.findComponentAt(sr.getArea()[0],sr.getArea()[1]);
                         background.remove(finishedScene);
                         GUI.setMoveAble(false);
+                        movePlayer(sr);
                         sr.getRoomScene().finishScene(sr);
                     }
                 } else {

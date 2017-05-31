@@ -101,7 +101,9 @@ public class Scene {
                     }
                 }
                 dieOrdered.add(highDie);
-                payDice.remove(highDie);
+                int index = payDice.indexOf(highDie);
+                payDice.remove(index);
+                highDie = 0;
             }
             bonusPaymentOnCard(pOrdered, dieOrdered);
             bonusPaymentOffCard(pOffCard);
