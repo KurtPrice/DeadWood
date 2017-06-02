@@ -135,7 +135,7 @@ public class Deadwood {
         GUI.setPlayers(playerList);
         while (numScenes != 1) {
             for (Player p : playerList) {
-                if (UI2.turn(p, roomArray)) {
+                if (GUI.turn(p, roomArray)) {
                     numScenes--;
                 }
                 if (numScenes == 1) {

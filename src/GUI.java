@@ -1,10 +1,8 @@
-import java.awt.event.*;
 import javax.swing.*;
-import javax.imageio.*;
-import java.io.*;
-import java.awt.image.*;
-import java.awt.Dimension;
-import java.util.Random;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 /**
  * Created by Tom on 5/24/2017.
@@ -21,20 +19,13 @@ public class GUI {
     private static boolean end;
     public GUI () throws IOException {
 
-        //clock = new Clock();
         gView = new GUIView();
-        //cCtlr = new Controller(clock);
-
-        //clock.addListener(cView);
 
         mainFrame = new JFrame();
         mainFrame.setTitle("DeadWood");
-
         mainFrame.getContentPane().add(gView);
-        //mainFrame.getContentPane().add(cCtlr);
         mainFrame.getContentPane().setPreferredSize(new Dimension(1410,900));
         mainFrame.pack();
-
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
